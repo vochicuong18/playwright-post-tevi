@@ -1,0 +1,10 @@
+{
+  "object_wait": 3,
+  "env": "dev",
+  "dev": {
+    "fo": "http://ricoh.cloud.bluecomvn.com/",
+    "bo": "http://ricoh.cloud.bluecomvn.com/admin"
+  },
+  "afterShip" : "https://admin.aftership.com/",
+  "otp": "http://ricoh.cloud.bluecomvn.com/media/otp.txt"
+}
