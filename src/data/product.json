@@ -1,0 +1,10 @@
+{
+  "simple_product": {
+    "name": "Bolo Sport Watch",
+    "sku": "24-WG01",
+    "price": 49,
+    "qty": 1,
+    "category": "Products->Printer",
+    "url": "bolo-sport-watch.html"
+  }
+}

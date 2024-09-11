@@ -1,53 +1,93 @@
+import Customer from "./Customer";
+
 const ProductType = Object.freeze({
     SINGLE: 'single',
     CONFIGURATION: 'configuration'
-}) 
+})
 
 class Product {
     sku
     name
     type
+    price
+    qty
+    url
 
-    constructor(sku, name, type) {
+    constructor(sku, name, type, price, qty, url) {
         this.sku = sku
         this.name = name
         this.type = type
+        this.price = price
+        this.qty = qty
+        this.url = url
     }
 
-    getSKU(){
+    getSKU() {
         return this.sku
     }
 
-    getName(){
+    getName() {
         return this.name
     }
 
-    getType(){
+    getType() {
         return this.type
+    }
+
+    getPrice() {
+        return this.price
+    }
+
+    getQty() {
+        return this.qty
+    }
+
+    getURL() {
+        return this.url
     }
 
     static Builder = class {
         sku
         name
         type
+        price
+        qty
+        url
 
-        setSku(sku){
+        setSku(sku) {
             this.sku = sku
-            return this     
+            return this
         }
 
-        setName(name){
+        setName(name) {
             this.name = name
-            return this  
+            return this
         }
 
-        setType(type){
+        setType(type) {
             this.type = type
-            return this  
+            return this
         }
 
-        build(){
-            return new Product(this.sku, this.name, this.type)
+        setPrice(price) {
+            this.price = price
+            return this
+        }
+
+        setQty(qty) {
+            this.qty = qty
+            return this
+        }
+
+        setURL(url) {
+            this.url = url
+            return this
+        }
+
+        build() {
+            return new Product(this.sku, this.name, this.type, this.price, this.qty, this.url)
         }
     }
 }
+
+export default Product
