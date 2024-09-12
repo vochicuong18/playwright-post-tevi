@@ -1,6 +1,7 @@
 import WaitUtility from "../../utilities/WaitUtility";
 import LoginPage from "./LoginPage"
 import ShoppingCartPage from "./ShoppingCartPage.js"
+import ProductListPage from "../product/ProductListPage";
 
 let waitUtility
 
@@ -14,6 +15,8 @@ export default class HeaderPage {
         this.btnLogin = page.locator('.panel.header li.authorization-link>a');
         this.cartIcon = page.locator('a.action.showcart')
         this.lnkViewCart = page.locator('a.action.viewcart')
+        this.txtSearch = page.locator('input#search')
+        this.btnAcceptCookie = page.locator('button#btn-cookie-allow')
     }
 
     async getTitle() {
@@ -26,7 +29,7 @@ export default class HeaderPage {
     }
 
     async switchLanguage(language) {
-        await waitUtility.sleep(5);
+        await this.btnAcceptCookie.click()
         if (language == 'English') {
             await this.lbLanguageZH.click();
             await this.btnSwitchLanguage.click();
@@ -45,11 +48,20 @@ export default class HeaderPage {
     }
 
     async viewMiniCart() {
+        await this.page.waitForLoadState()
         await this.cartIcon.click()
     }
 
     async viewShoppingCart() {
         await this.lnkViewCart.click()
+        await this.page.waitForURL('**/checkout/cart/');
+        await this.page.waitForLoadState()
         return new ShoppingCartPage(this.page)
+    }
+
+    async searchProduct(product) {
+        await this.txtSearch.fill(product.getName())
+        await this.page.keyboard.press('Enter')
+        return new ProductListPage(this.page)
     }
 }

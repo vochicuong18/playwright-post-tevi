@@ -1,64 +1,74 @@
 class Customer {
-    email
-    password
-    firstName
-    lastName
+    email;
+    password;
+    firstName;
+    lastName;
+    address;
 
-    constructor(email, firstName, lastName, password) {
+    constructor(email, firstName, lastName, password, address) {
         this.email = email;
         this.password = password;
-        this.firstName = firstName
-        this.lastName = lastName
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
     }
 
-    getEmail(){
+    getEmail() {
         return this.email;
     }
 
-    getPassword(){
+    getPassword() {
         return this.password;
     }
 
-    getFirstName(){
-        return this.firstName
+    getFirstName() {
+        return this.firstName;
     }
 
-    getLastName(){
-        return this.lastName
+    getLastName() {
+        return this.lastName;
+    }
+
+    getAddress() {
+        return this.address;
     }
 
     static Builder = class {
-        email
-        password
-        firstName
-        lastName
+        email;
+        password;
+        firstName;
+        lastName;
+        address;
 
-        setEmail(email){
+        setEmail(email) {
             this.email = email;
             return this;
         }
 
-        setFirstName(firstName){
-            this.firstName = firstName
-            return this
+        setFirstName(firstName) {
+            this.firstName = firstName;
+            return this;
         }
 
-        setLastName(lastName){
-            this.lastName = lastName
-            return this
+        setLastName(lastName) {
+            this.lastName = lastName;
+            return this;
         }
 
-        setPassword(password){
+        setPassword(password) {
             this.password = password;
             return this;
         }
 
-        build(){
-            return new Customer(this.email, this.firstName, this.lastName, this.password)
+        setAddress(address) {
+            this.address = address;
+            return this;
         }
-    }
+
+        build() {
+            return new Customer(this.email, this.firstName, this.lastName, this.password, this.address);
+        }
+    };
 }
-
-
 
 export default Customer;
