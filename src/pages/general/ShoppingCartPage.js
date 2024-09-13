@@ -2,6 +2,7 @@ import {expect} from "@playwright/test";
 import ShippingPage from "./ShippingPage";
 import product from "../../entities/Product";
 import StringUtility from "../../utilities/StringUtility";
+import PriceUtility from "../../utilities/PriceUtility";
 
 export default class ShoppingCartPage {
     constructor(page) {
@@ -29,20 +30,20 @@ export default class ShoppingCartPage {
     async checkProduct(product) {
         await this.loadingMask.waitFor({state: 'attached'})
         await this.loadingMask.waitFor({state: 'detached'})
-        await expect.soft(this.productItem(product.getName())).toBeVisible();
         let gui = await this.productGrandTotal(product.getName()).textContent()
-        let data = await StringUtility.convertPriceToString(product.getQty() * product.getPrice())
-        await expect.soft(gui, "Check product grand total").toEqual(data)
+        let data = await PriceUtility.convertPriceToString(product.getQty() * product.getPrice())
+        await expect.soft(this.productItem(product.getName())).toBeVisible();
+        await expect.soft(gui, `Check product grand total gui: ${gui} - data: ${data} `).toEqual(data)
     }
 
     async checkSubTotal(subTotal) {
-        let data = await StringUtility.convertPriceToString(subTotal)
+        let data = await PriceUtility.convertPriceToString(subTotal)
         let gui = await this.subTotal.textContent()
         await expect.soft(gui, "Check sub total").toEqual(data)
     }
 
     async checkGrandTotal(grandTotal) {
-        let data = await StringUtility.convertPriceToString(grandTotal)
+        let data = await PriceUtility.convertPriceToString(grandTotal)
         let gui = await this.grandTotal.textContent()
         await expect.soft(gui, "check grand total").toEqual(data)
     }

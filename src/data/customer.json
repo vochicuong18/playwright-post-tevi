@@ -3,6 +3,22 @@
         "email":"cuong.vo@mailinator.com",
         "firstName": "Cuong",
         "lastName": "Vo",
-        "password":"Cuong@123123"
+        "password":"Cuong@123123",
+        "shippingAddress": {
+            "flat": "205",
+            "street": "2000 Logan Rd",
+            "area":"Hong Kong Island",
+            "city": "Hong Kong SAR China",
+            "district": "Sheung Wan",
+            "phoneNumber": "0890939946"
+        },
+        "billingAddress": {
+            "flat": "205",
+            "street": "2000 Logan Rd",
+            "area":"Hong Kong Island",
+            "city": "Hong Kong SAR China",
+            "district": "Sheung Wan",
+            "phoneNumber": "0890939946"
+        }
     }
 }

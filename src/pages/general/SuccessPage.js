@@ -8,8 +8,8 @@ export default class SuccessPage {
 
     async goToOrderDetailPage () {
         await this.orderNumber.click()
-        await page.waitForURL("**/order/view/order_id/**")
-        await page.waitForLoadState()
+        await this.page.waitForURL("**/order/view/order_id/**")
+        await this.page.waitForLoadState()
         return new OrderDetailsPage(this.page)
     }
 

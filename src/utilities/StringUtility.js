@@ -14,8 +14,4 @@ export default class StringUtility {
         data = this.removeLines(data)
         return this.removeRedundantCharacter(data, '  ')
     }
-
-    static async convertPriceToString(price) {
-        return `HK$${parseFloat(price).toFixed(2)}`;
-    }
 }
