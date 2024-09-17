@@ -13,10 +13,10 @@ export default class OrderDetailsPage {
         this.billingAddress = page.locator('div.box-order-billing-address address')
         this.paymentMethod = page.locator('div.box-order-billing-method div.box-content')
         this.productItem = (productName) => {
-            return page.locator(`//tr[contains(@id, 'order-item-row') and //strong[text()='${productName}']]`)
+            return page.locator(`//tr[contains(@id, 'order-item-row')]//strong[text()='${productName}']`)
         }
         this.productSubtotal = (productName) => {
-            return page.locator(`//tr[contains(@id, 'order-item-row') and //strong[text()='${productName}']]//td[@class='col subtotal']//span[@class='price']`)
+            return page.locator(`//strong[text()='${productName}']/ancestor::tr//td[@class='col subtotal']//span[@class='price']`)
         }
         this.shippingMethod = page.locator('div.box.box-order-shipping-method div.box-content')
 

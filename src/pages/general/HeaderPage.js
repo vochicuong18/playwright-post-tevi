@@ -17,6 +17,9 @@ export default class HeaderPage {
         this.lnkViewCart = page.locator('a.action.viewcart')
         this.txtSearch = page.locator('input#search')
         this.btnAcceptCookie = page.locator('button#btn-cookie-allow')
+        this.cartCount = page.locator("//div[@class='minicart-wrapper']//span[contains(@class, 'counter qty')]")
+        this.emptyCartTitle = page.locator('.subtitle.empty')
+        this.loadingMask = page.locator('div.cart-totals div.loader')
     }
 
     async getTitle() {
@@ -49,6 +52,7 @@ export default class HeaderPage {
 
     async viewMiniCart() {
         await this.page.waitForLoadState()
+        await waitUtility.sleep(2) // temp handle mini cart loading
         await this.cartIcon.click()
     }
 
@@ -56,6 +60,8 @@ export default class HeaderPage {
         await this.lnkViewCart.click()
         await this.page.waitForURL('**/checkout/cart/');
         await this.page.waitForLoadState()
+        await this.loadingMask.waitFor({state: 'attached'})
+        await this.loadingMask.waitFor({state: 'detached'})
         return new ShoppingCartPage(this.page)
     }
 
@@ -64,4 +70,9 @@ export default class HeaderPage {
         await this.page.keyboard.press('Enter')
         return new ProductListPage(this.page)
     }
+
+    async isEmptyCartTitleDisplayed() {
+        return await this.emptyCartTitle.isVisible()
+    }
+
 }

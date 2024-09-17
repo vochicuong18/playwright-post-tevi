@@ -6,5 +6,47 @@
     "qty": 1,
     "category": "Products->Printer",
     "url": "bolo-sport-watch.html"
+  },
+  "bundle_product": {
+    "name": "Sprite Yoga Companion Kit",
+    "sku": "24-WG080",
+    "price": 44,
+    "qty": 1,
+    "category": "Gear->Fitness Equipment",
+    "url": "/sprite-yoga-companion-kit.html",
+    "bundle_items": [
+      {
+        "name": "Sprite Stasis Ball 65 cm",
+        "sku": "24-WG082-blue",
+        "price": 27,
+        "qty": 1,
+        "type": "checkbox",
+        "label": "Sprite Stasis Ball"
+      },
+      {
+        "name": "Sprite Foam Yoga Brick",
+        "sku": "24-WG084",
+        "price": 5,
+        "qty": 1,
+        "type": "none",
+        "label": "Sprite Foam Yoga Brick"
+      },
+      {
+        "name": "Sprite Yoga Strap 8 foot",
+        "sku": "24-WG086",
+        "price": 17,
+        "qty": 1,
+        "type": "checkbox",
+        "label": "Sprite Yoga Strap"
+      },
+      {
+        "name": "Sprite Foam Roller",
+        "sku": "24-WG088",
+        "price": 19,
+        "qty": 1,
+        "type": "none",
+        "label": "Sprite Foam Roller"
+      }
+    ]
   }
 }
