@@ -9,34 +9,30 @@ const test = baseTest.extend({
     page: async ({browser}, use) => {
         const page = await browser.newPage();
         await use(page);
-        await page.close();
     },
     headerPage: async ({page}, use) => {
-        const headerPage = new HeaderPage(page);
-        await use(headerPage);
+        await use(new HeaderPage(page));
     },
-    customer: async (_, use) => {
-        const customer = DataTest.getCustomerTest();
-        await use(customer);
+    customer: async ({}, use) => {
+        await use(DataTest.getCustomerTest())
     },
-    simpleProduct: async (_, use) => {
-        const simpleProduct = DataTest.getSimpleProductTest();
-        await use(simpleProduct);
+    simpleProduct: async ({}, use) => {
+        await use(DataTest.getSimpleProductTest())
     },
-    bundleProduct: async (_, use) => {
-        const bundleProduct = DataTest.getBundleProductTest();
-        await use(bundleProduct);
+    bundleProduct: async ({}, use) => {
+        await use(DataTest.getBundleProductTest())
     },
-    cod: async (_, use) => {
-        const cod = paymentMethod.cashOnDelivery;
-        await use(cod);
+    cod: async ({}, use) => {
+        await use(paymentMethod.cashOnDelivery)
     },
-    bestWay: async (_, use) => {
-        const shipping = shippingMethod.bestWay;
-        await use(shipping);
+    bestWay: async ({}, use) => {
+        await use(shippingMethod.bestWay)
     },
-    subTotal: [null, {option: true}],
-    shippingFee: [null, {option: true}],
-    grandTotal: [null, {option: true}]
+    calculated: async ({simpleProduct, bundleProduct, cod}, use) => {
+        const subTotal = simpleProduct.getPrice() * simpleProduct.getQty() + bundleProduct.getPrice() * bundleProduct.getQty();
+        const shippingFee = shippingMethod.bestWay.fee;
+        const grandTotal = subTotal + shippingFee;
+        await use({subTotal, shippingFee, grandTotal});
+    },
 });
 export default test;

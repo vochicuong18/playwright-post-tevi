@@ -12,11 +12,7 @@ let checkoutPage
 let successPage
 let orderDetailsPage
 
-test('Checkout as user with simple product', async ({ page, headerPage, customer, simpleProduct, bundleProduct, cod, bestWay }) => {
-    let subTotal, shippingFee, grandTotal;
-    subTotal = simpleProduct.getPrice() * simpleProduct.getQty() + bundleProduct.getPrice() * bundleProduct.getQty();
-    shippingFee = bestWay.fee;
-    grandTotal = subTotal + shippingFee;
+test('Checkout as user with simple product', async ({ page, headerPage, customer, simpleProduct, bundleProduct, cod, bestWay, calculated:{subTotal, shippingFee, grandTotal} }) => {
 
     await test.step('Login', async () => {
         await Navigate.navigateToHomePage(page)
@@ -42,7 +38,6 @@ test('Checkout as user with simple product', async ({ page, headerPage, customer
         productListPage = await headerPage.searchProduct(bundleProduct)
         productDetailsPage = await productListPage.goToProductDetails(bundleProduct)
         await productDetailsPage.addToCart(bundleProduct)
-        await calculate()
     })
 
     await test.step('Check shopping cart', async () => {
