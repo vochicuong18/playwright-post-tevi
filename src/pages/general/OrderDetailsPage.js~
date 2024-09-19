@@ -1,5 +1,5 @@
 import PriceUtility from "../../utilities/PriceUtility";
-import {expect} from "../../utilities/fixtures1";
+import {expect} from "../../src/utilities/fixtures1";
 import StringUtility from "../../utilities/StringUtility";
 
 export default class OrderDetailsPage {

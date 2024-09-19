@@ -1,6 +1,6 @@
 import {expect} from "@playwright/test";
 import ShippingPage from "./ShippingPage";
-import product from "../../entities/Product";
+import product from "../../entities/product/Product";
 import StringUtility from "../../utilities/StringUtility";
 import PriceUtility from "../../utilities/PriceUtility";
 
@@ -12,10 +12,10 @@ export default class ShoppingCartPage {
         this.shippingFee = page.locator('tr.totals.shipping.excl span.price')
         this.grandTotal = page.locator('tr.grand.totals span.price')
         this.productItem = (productName) => {
-            return page.locator(`//tr[@class='item-info' and //a[text()='${productName}']]`)
+            return page.locator(`//table[@id='shopping-cart-table']//a[text()='${productName}']`)
         }
-        this.productGrandTotal = (productName) => {
-            return page.locator(`//tr[@class='item-info' and //a[text()='${productName}']]//td[@class='col subtotal']//span[@class='price']`)
+        this.productSubtotal = (productName) => {
+            return page.locator(`//a[text()='${productName}']//ancestor::tr//td[@class='col subtotal']//span[@class='price']`)
         }
         this.loadingMask = page.locator('div.cart-totals div.loader')
         this.btnCheckout = page.getByRole('button', {name: 'Proceed to Checkout'})
@@ -28,9 +28,7 @@ export default class ShoppingCartPage {
     }
 
     async checkProduct(product) {
-        await this.loadingMask.waitFor({state: 'attached'})
-        await this.loadingMask.waitFor({state: 'detached'})
-        let gui = await this.productGrandTotal(product.getName()).textContent()
+        let gui = await this.productSubtotal(product.getName()).textContent()
         let data = await PriceUtility.convertPriceToString(product.getQty() * product.getPrice())
         await expect.soft(this.productItem(product.getName())).toBeVisible();
         await expect.soft(gui, `Check product grand total gui: ${gui} - data: ${data} `).toEqual(data)
@@ -46,5 +44,12 @@ export default class ShoppingCartPage {
         let data = await PriceUtility.convertPriceToString(grandTotal)
         let gui = await this.grandTotal.textContent()
         await expect.soft(gui, "check grand total").toEqual(data)
+    }
+
+    async empty() {
+        while (await this.btnDeleteItem.count() > 0) {
+            await this.btnDeleteItem.first().click()
+            await this.page.waitForLoadState()
+        }
     }
 }

@@ -20,7 +20,8 @@ let checkoutPage
 let successPage
 let orderDetailsPage
 let customer
-let product
+let simpleProduct
+let bundleProduct
 let cod
 let subTotal
 let shippingFee
@@ -30,7 +31,8 @@ test.beforeAll('Prepare data', async ({browser}) => {
     page = await browser.newPage()
     headerPage = new HeaderPage(page)
     customer = DataTest.getCustomerTest()
-    product = DataTest.getProductTest()
+    simpleProduct = DataTest.getSimpleProductTest()
+    bundleProduct = DataTest.getBundleProductTest()
     cod = paymentMethod.cashOnDelivery
 })
 
@@ -47,17 +49,30 @@ test('Checkout as user with simple product', async () => {
         await myAccountPage.checkContactInfo(customer)
     })
 
+    await test.step('Check cart empty', async () => {
+        await headerPage.viewMiniCart()
+        if (!await headerPage.isEmptyCartTitleDisplayed()) {
+            shoppingCartPage = await headerPage.viewShoppingCart()
+            await shoppingCartPage.empty()
+        }
+    })
+
     await test.step('Add product to cart', async () => {
-        productListPage = await headerPage.searchProduct(product)
-        productDetailsPage = await productListPage.goToProductDetails(product)
-        await productDetailsPage.addToCart()
+        productListPage = await headerPage.searchProduct(simpleProduct)
+        productDetailsPage = await productListPage.goToProductDetails(simpleProduct)
+        await productDetailsPage.addToCart(simpleProduct)
+
+        productListPage = await headerPage.searchProduct(bundleProduct)
+        productDetailsPage = await productListPage.goToProductDetails(bundleProduct)
+        await productDetailsPage.addToCart(bundleProduct)
         await calculate()
     })
 
     await test.step('Check shopping cart', async () => {
         await headerPage.viewMiniCart()
         shoppingCartPage = await headerPage.viewShoppingCart()
-        await shoppingCartPage.checkProduct(product)
+        await shoppingCartPage.checkProduct(simpleProduct)
+        await shoppingCartPage.checkProduct(bundleProduct)
         await shoppingCartPage.checkSubTotal(subTotal)
         await shoppingCartPage.checkGrandTotal(grandTotal)
     })
@@ -81,7 +96,8 @@ test('Checkout as user with simple product', async () => {
 
     await test.step('Check order details', async () => {
         orderDetailsPage = await successPage.goToOrderDetailPage()
-        await orderDetailsPage.checkProduct(product)
+        await orderDetailsPage.checkProduct(simpleProduct)
+        await orderDetailsPage.checkProduct(bundleProduct)
         await orderDetailsPage.checkSubtotal(subTotal)
         await orderDetailsPage.checkShippingFee(shippingFee)
         await orderDetailsPage.checkGrandTotal(grandTotal)
@@ -93,7 +109,7 @@ test('Checkout as user with simple product', async () => {
 })
 
 async function calculate() {
-    subTotal = product.getPrice() * product.getQty()
+    subTotal = simpleProduct.getPrice() * simpleProduct.getQty() * 2 + bundleProduct.getPrice() * bundleProduct.getQty()
     shippingFee = shippingMethod.bestWay.fee
     grandTotal = subTotal + shippingFee
 }

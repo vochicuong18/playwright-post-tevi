@@ -1,17 +1,7 @@
-import Customer from "./Customer";
-
-const ProductType = Object.freeze({
-    SINGLE: 'single',
-    CONFIGURATION: 'configuration'
-})
-
 class Product {
-    sku
-    name
-    type
-    price
-    qty
-    url
+    static ProductType = Object.freeze({
+        SIMPLE: 'simple', CONFIGURATION: 'configuration', BUNDLE: 'bundle', BUNDLE_ITEM: 'bundle_item'
+    })
 
     constructor(sku, name, type, price, qty, url) {
         this.sku = sku
@@ -47,13 +37,6 @@ class Product {
     }
 
     static Builder = class {
-        sku
-        name
-        type
-        price
-        qty
-        url
-
         setSku(sku) {
             this.sku = sku
             return this
