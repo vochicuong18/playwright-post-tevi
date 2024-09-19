@@ -19,8 +19,8 @@ export default class ShippingPage {
         await this.btnNext.click()
         await waitUtility.waitForURLEndWith("/checkout/#payment")
         await this.page.waitForLoadState()
-        await this.loadingMask.waitFor({state:'detached'})
-        await this.summaryLoadingMask.waitFor({state:'detached'})
+        await waitUtility.waitForNotPresentOf(this.loadingMask)
+        await waitUtility.waitForNotPresentOf(this.summaryLoadingMask)
         return new CheckoutPage(this.page)
     }
 

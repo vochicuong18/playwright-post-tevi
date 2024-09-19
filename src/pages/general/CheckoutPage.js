@@ -2,10 +2,14 @@ import {expect} from "@playwright/test";
 import SuccessPage from "./SuccessPage";
 import PriceUtility from "../../utilities/PriceUtility";
 import StringUtility from "../../utilities/StringUtility";
+import WaitUtility from "../../utilities/WaitUtility";
+
+let waitUtility
 
 export default class CheckoutPage {
     constructor(page) {
         this.page = page
+        waitUtility = new WaitUtility(this.page)
         this.cbPaymentMethod = (paymentMethod) => {
             return page.locator(`//input[@id='${paymentMethod}']`)
         }
@@ -56,8 +60,8 @@ export default class CheckoutPage {
 
     async selectPaymentMethod(paymentMethod) {
         await this.cbPaymentMethod(paymentMethod).click()
-        await this.loadingMask.waitFor({state:'detached'})
-        await this.summaryLoadingMask.waitFor({state:'detached'})
+        await waitUtility.waitForNotPresentOf(this.loadingMask)
+        await waitUtility.waitForNotPresentOf(this.summaryLoadingMask)
     }
 
     async agreeTerm() {

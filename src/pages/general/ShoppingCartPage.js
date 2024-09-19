@@ -3,10 +3,13 @@ import ShippingPage from "./ShippingPage";
 import product from "../../entities/product/Product";
 import StringUtility from "../../utilities/StringUtility";
 import PriceUtility from "../../utilities/PriceUtility";
+import WaitUtility from "../../utilities/WaitUtility";
 
+let waitUtility
 export default class ShoppingCartPage {
     constructor(page) {
         this.page = page
+        waitUtility = new WaitUtility(this.page)
         this.btnDeleteItem = page.locator('a.action.action-delete')
         this.subTotal = page.locator('tr.totals.sub span.price')
         this.shippingFee = page.locator('tr.totals.shipping.excl span.price')
@@ -22,7 +25,7 @@ export default class ShoppingCartPage {
     }
 
     async goToShippingPage() {
-        await this.loadingMask.waitFor({state: 'detached'})
+        await waitUtility.waitForNotPresentOf(this.loadingMask)
         await this.btnCheckout.click()
         return new ShippingPage(this.page)
     }
