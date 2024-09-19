@@ -19,7 +19,7 @@ import {allure} from "allure-playwright";
 export const test = baseTest.extend({
     page: async ({browser}, use) => {
         const page = await browser.newPage();
-        await allure.tag(`${browser.browserType().name()} ${browser.version()}`)
+        await allure.tag(browser.browserType().name() + browser.version())
         await Navigate.navigateToHomePage(page)
         let headerPage = new HeaderPage(page)
         await headerPage.switchLanguage('English');
