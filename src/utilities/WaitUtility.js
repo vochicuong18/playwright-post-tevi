@@ -36,6 +36,22 @@ class WaitUtility {
         )
 
     }
+
+    async waitForPresentOf(element) {
+        return await element.waitFor({state: 'attached'})
+    }
+
+    async waitForNotPresentOf(element) {
+        return await element.waitFor({state: 'detached'})
+    }
+
+    async waitUntilVisibilityOf(element){
+        return await element.waitFor({state: 'visible'})
+    }
+
+    async waitForInvisibilityOf(element){
+        return await element.waitFor({state: 'hidden'})
+    }
 }
 
 export default WaitUtility

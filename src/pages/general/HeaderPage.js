@@ -60,8 +60,8 @@ export default class HeaderPage {
         await this.lnkViewCart.click()
         await this.page.waitForURL('**/checkout/cart/');
         await this.page.waitForLoadState()
-        await this.loadingMask.waitFor({state: 'attached'})
-        await this.loadingMask.waitFor({state: 'detached'})
+        await waitUtility.waitForPresentOf(this.loadingMask)
+        await waitUtility.waitForNotPresentOf(this.loadingMask)
         return new ShoppingCartPage(this.page)
     }
 

@@ -29,7 +29,7 @@ export default class {
         await this.btnAddToCart.click()
         // await this.cartCountLoading.waitFor({state: 'attached'})
         // await this.cartCountLoading.waitFor({state: 'detached'})
-        await this.successMessage.waitFor({state: 'attached'})
+        await waitUtility.waitForPresentOf(this.successMessage)
     }
 
     async customizeBundleProduct(product) {
