@@ -20,6 +20,7 @@ export default class HeaderPage {
         this.cartCount = page.locator("//div[@class='minicart-wrapper']//span[contains(@class, 'counter qty')]")
         this.emptyCartTitle = page.locator('.subtitle.empty')
         this.loadingMask = page.locator('div.cart-totals div.loader')
+        this.body = page.locator('body#html-body')
     }
 
     async getTitle() {
@@ -52,7 +53,8 @@ export default class HeaderPage {
 
     async viewMiniCart() {
         await this.page.waitForLoadState()
-        await waitUtility.sleep(2) // temp handle mini cart loading
+        await waitUtility.waitForValueOfAttributeContains(this.body, "aria-busy", "false")
+        await this.cartIcon.highlight()
         await this.cartIcon.click()
     }
 

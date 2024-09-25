@@ -1,3 +1,5 @@
+import {expect} from "@playwright/test";
+
 let MAX_COUNT = 30
 
 class WaitUtility {
@@ -30,11 +32,15 @@ class WaitUtility {
     }
 
     async waitForValueOfAttributeDoesNotContains(element, attribute, expectedValue) {
-        await this.page.waitForFunction(() => {
-                return element && !element.classList.contains(expectedValue)
-            }, {timeout: 5000}
-        )
+        // await this.page.waitForFunction(() => {
+        //         return element && !element.classList.contains(expectedValue)
+        //     }, {timeout: 5000}
+        // )
+        await expect.soft(element).not.toHaveAttribute(attribute, expectedValue, {timeout: 5000})
+    }
 
+    async waitForValueOfAttributeContains(element, attribute, expectedValue ) {
+        await expect.soft(element).toHaveAttribute(attribute, expectedValue, {timeout: 5000})
     }
 
     async waitForPresentOf(element) {
@@ -45,11 +51,11 @@ class WaitUtility {
         return await element.waitFor({state: 'detached'})
     }
 
-    async waitUntilVisibilityOf(element){
+    async waitUntilVisibilityOf(element) {
         return await element.waitFor({state: 'visible'})
     }
 
-    async waitForInvisibilityOf(element){
+    async waitForInvisibilityOf(element) {
         return await element.waitFor({state: 'hidden'})
     }
 }
