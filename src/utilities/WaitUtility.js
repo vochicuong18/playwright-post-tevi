@@ -31,16 +31,16 @@ class WaitUtility {
         }
     }
 
-    async waitForValueOfAttributeDoesNotContains(element, attribute, expectedValue) {
-        // await this.page.waitForFunction(() => {
-        //         return element && !element.classList.contains(expectedValue)
-        //     }, {timeout: 5000}
-        // )
-        await expect.soft(element).not.toHaveAttribute(attribute, expectedValue, {timeout: 5000})
+    async waitForValueOfAttributeDoesNotContains(element, attributeName, expectedValue) {
+        await this.page.waitForFunction((data) => {
+            return !document.querySelector(data.selector).getAttribute(data.attribute).includes(data.expected);
+        }, {selector: element._selector, attribute: attributeName, expected: expectedValue});
     }
 
-    async waitForValueOfAttributeContains(element, attribute, expectedValue ) {
-        await expect.soft(element).toHaveAttribute(attribute, expectedValue, {timeout: 5000})
+    async waitForValueOfAttributeContains(element, attributeName, expectedValue) {
+        await this.page.waitForFunction((data) => {
+            return document.querySelector(data.selector).getAttribute(data.attribute).includes(data.expected);
+        }, {selector: element._selector, attribute: attributeName, expected: expectedValue});
     }
 
     async waitForPresentOf(element) {
