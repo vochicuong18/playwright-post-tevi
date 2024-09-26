@@ -1,3 +1,5 @@
+import {expect} from "@playwright/test";
+
 let MAX_COUNT = 30
 
 class WaitUtility {
@@ -29,12 +31,16 @@ class WaitUtility {
         }
     }
 
-    async waitForValueOfAttributeDoesNotContains(element, attribute, expectedValue) {
-        await this.page.waitForFunction(() => {
-                return element && !element.classList.contains(expectedValue)
-            }, {timeout: 5000}
-        )
+    async waitForValueOfAttributeDoesNotContains(element, attributeName, expectedValue) {
+        await this.page.waitForFunction((data) => {
+            return !document.querySelector(data.selector).getAttribute(data.attribute).includes(data.expected);
+        }, {selector: element._selector, attribute: attributeName, expected: expectedValue});
+    }
 
+    async waitForValueOfAttributeContains(element, attributeName, expectedValue) {
+        await this.page.waitForFunction((data) => {
+            return document.querySelector(data.selector).getAttribute(data.attribute).includes(data.expected);
+        }, {selector: element._selector, attribute: attributeName, expected: expectedValue});
     }
 
     async waitForPresentOf(element) {
@@ -45,11 +51,11 @@ class WaitUtility {
         return await element.waitFor({state: 'detached'})
     }
 
-    async waitUntilVisibilityOf(element){
+    async waitUntilVisibilityOf(element) {
         return await element.waitFor({state: 'visible'})
     }
 
-    async waitForInvisibilityOf(element){
+    async waitForInvisibilityOf(element) {
         return await element.waitFor({state: 'hidden'})
     }
 }
