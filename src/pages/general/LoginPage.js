@@ -11,6 +11,7 @@ class LoginPage {
         this.txtEmail = page.locator('#mobile-login-email')
         this.txtPassword = page.locator('#mobile-login-pass')
         this.btnLogin = page.getByTitle('Login')
+        this.lblWelcomeNotLogged = page.locator('div.panel.header span.not-logged-in')
     }
 
     async loginViaPassword(customer){
@@ -21,6 +22,7 @@ class LoginPage {
         await this.btnLogin.click()
         await waitUtility.waitForURLEndWith("/customer/account/")
         await this.page.waitForLoadState()
+        await waitUtility.waitForNotPresentOf(this.lblWelcomeNotLogged)
         return new MyAccount(this.page)
     }
 }
