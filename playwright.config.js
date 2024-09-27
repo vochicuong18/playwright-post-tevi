@@ -31,7 +31,11 @@ module.exports = defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     baseURL: 'https://ricoh.cloud.bluecomvn.com/',
     trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
+    screenshot: {
+      mode: 'only-on-failure',
+      fullPage: true,
+    },
+    video: 'on-first-retry',
     headless: false,
     launchOptions:{
       slowMo: 100

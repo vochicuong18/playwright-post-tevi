@@ -11,7 +11,7 @@ export default class {
         this.productQty = page.locator('input#qty')
         this.btnAddToCart = page.locator('button#product-addtocart-button')
         this.btnCustomize = page.getByRole('button', {name: 'Customize and Add to Cart'})
-        this.cartCountLoading = page.locator('span.counter.qty._block-content-loading')
+        this.cartCountLoading = page.locator('span.counter.qty')
         this.successMessage = page.locator('div.message-success.success.message')
         this.cbBundleItem = (bundleItemName) => {
             return page.locator(`//span[@class='product-name' and text()='${bundleItemName}']`)
@@ -27,8 +27,7 @@ export default class {
         }
         await this.productQty.fill(product.getQty().toString())
         await this.btnAddToCart.click()
-        // await this.cartCountLoading.waitFor({state: 'attached'})
-        // await this.cartCountLoading.waitFor({state: 'detached'})
+        await waitUtility.waitForValueOfAttributeDoesNotContains(this.cartCountLoading, "class", "_block-content-loading")
         await waitUtility.waitForPresentOf(this.successMessage)
     }
 
