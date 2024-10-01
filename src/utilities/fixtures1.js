@@ -14,15 +14,17 @@ import SuccessPage from "../pages/general/SuccessPage";
 import OrderDetailsPage from "../pages/general/OrderDetailsPage";
 import {paymentMethod} from '../entities/Payment';
 import {shippingMethod} from '../entities/Shipping';
-import {allure} from "allure-playwright";
+const allure = require("allure-js-commons");
 
 export const test = baseTest.extend({
+    //Fixtures marked as "option: true" will get a value specified in the config,
+    // or fallback to the default value.
+    language: ['English', { option: true }],
     page: async ({browser}, use) => {
         const page = await browser.newPage();
         await allure.tag(`${browser.browserType().name()} ${browser.version()}`)
         await Navigate.navigateToHomePage(page)
         let headerPage = new HeaderPage(page)
-        await headerPage.switchLanguage('English');
         await use(page);
     },
 

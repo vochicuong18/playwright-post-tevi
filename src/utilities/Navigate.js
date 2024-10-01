@@ -5,6 +5,7 @@ const data = JSON.parse(rawData);
 export default class Navigate {
     static async navigateToHomePage(page) {
         await page.goto(data[data.env]['fo'])
-        await page.waitForLoadState()
+        await page.waitForLoadState('domcontentloaded')
+        await page.waitForLoadState('networkidle')
     }
 }
