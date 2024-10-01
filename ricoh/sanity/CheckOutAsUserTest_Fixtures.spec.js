@@ -1,11 +1,10 @@
 import {test, expect} from "../../src/utilities/fixtures1";
-
-test('Checkout as user', async ({ headerPage, loginPage, myAccountPage, productListPage, productDetailsPage, shoppingCartPage, shippingPage, checkoutPage, successPage, orderDetailsPage ,customer, simpleProduct, bundleProduct, cod, bestWay, calculated:{subTotal, shippingFee, grandTotal} }) => {
+test('Checkout as user', async ({language, headerPage, loginPage, myAccountPage, productListPage, productDetailsPage, shoppingCartPage, shippingPage, checkoutPage, successPage, orderDetailsPage ,customer, simpleProduct, bundleProduct, cod, bestWay, calculated:{subTotal, shippingFee, grandTotal} }) => {
 
     await test.step('Login', async () => {
-        await headerPage.navigateToLogin();
-        // await loginPage.loginViaPassword(customer)
-        // await myAccountPage.checkContactInfo(customer)
+        await headerPage.switchLanguage(language.en);
+        await loginPage.loginViaPassword(customer)
+        await myAccountPage.checkContactInfo(customer)
     })
 
     await test.step('Check cart empty', async () => {

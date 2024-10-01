@@ -21,6 +21,7 @@ export default class ShippingPage {
         await this.page.waitForLoadState()
         await waitUtility.waitForNotPresentOf(this.loadingMask)
         await waitUtility.waitForNotPresentOf(this.summaryLoadingMask)
+        await this.page.waitForLoadState('domcontentloaded')
         return new CheckoutPage(this.page)
     }
 

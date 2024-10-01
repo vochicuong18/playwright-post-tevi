@@ -34,7 +34,7 @@ export default class HeaderPage {
 
     async switchLanguage(language) {
         await this.btnAcceptCookie.click()
-        if (language == 'English') {
+        if (language === 'English') {
             await this.lbLanguageZH.click();
             await this.btnSwitchLanguage.click();
         } else {
@@ -47,7 +47,7 @@ export default class HeaderPage {
     async navigateToLogin() {
         await this.btnLogin.click()
         await this.page.waitForURL('**/login/**');
-        await this.page.waitForLoadState()
+        await this.page.waitForLoadState('domcontentloaded')
         return new LoginPage(this.page)
     }
 
