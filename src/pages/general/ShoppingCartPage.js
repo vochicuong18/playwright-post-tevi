@@ -1,12 +1,13 @@
 import {expect} from "@playwright/test";
 import ShippingPage from "./ShippingPage";
-import product from "../../entities/product/Product";
-import StringUtility from "../../utilities/StringUtility";
 import PriceUtility from "../../utilities/PriceUtility";
 import WaitUtility from "../../utilities/WaitUtility";
 
 let waitUtility
 export default class ShoppingCartPage {
+    /**
+     * @param {import('@playwright/test').Page} page
+     */
     constructor(page) {
         this.page = page
         waitUtility = new WaitUtility(this.page)

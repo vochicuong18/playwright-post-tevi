@@ -1,12 +1,10 @@
 import {test} from "@playwright/test";
 
-const {default: DataTest} = require('../../src/utilities/DataTest')
-const {default: Navigate} = require('../../src/utilities/Navigate')
-const {default: HeaderPage} = require('../../src/pages/general/HeaderPage')
+import Navigate from "../../src/utilities/Navigate";
+import DataTest from "../../src/utilities/DataTest";
+import HeaderPage from "../../src/pages/general/HeaderPage";
 import {paymentMethod} from '../../src/entities/Payment'
 import {shippingMethod} from "../../src/entities/Shipping";
-
-/** @type {import('@playwright/test').Page} */
 
 let page
 let headerPage
@@ -43,8 +41,8 @@ test.afterAll('Clean up', async () => {
 test('Checkout as user with simple product', async () => {
     await test.step('Login', async () => {
         await Navigate.navigateToHomePage(page)
-        await headerPage.switchLanguage('English');
-        loginPage = await headerPage.navigateToLogin();
+        await headerPage.switchLanguage('English')
+        loginPage = await headerPage.navigateToLogin()
         myAccountPage = await loginPage.loginViaPassword(customer)
         await myAccountPage.checkContactInfo(customer)
     })

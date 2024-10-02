@@ -4,7 +4,10 @@ import BundleItem from "../../entities/product/BundleItem";
 
 let waitUtility
 
-export default class {
+export default class ProductDetailsPage {
+    /**
+     * @param {import('@playwright/test').Page} page
+     */
     constructor(page) {
         this.page = page
         waitUtility = new WaitUtility(this.page);

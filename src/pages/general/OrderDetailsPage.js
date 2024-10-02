@@ -3,6 +3,9 @@ import {expect} from "../../utilities/fixtures1";
 import StringUtility from "../../utilities/StringUtility";
 
 export default class OrderDetailsPage {
+    /**
+     * @param {import('@playwright/test').Page} page
+     */
     constructor(page) {
         this.page = page
         this.orderNumber = page.locator("span[data-ui-id='page-title-wrapper']")
@@ -73,7 +76,14 @@ export default class OrderDetailsPage {
 
     formatAddress(customer, addressType) {
         const {firstName, lastName} = customer;
-        const {flat, street, district,area, city, phoneNumber} = addressType === 'shipping' ? customer.getShippingAddress() : customer.getBillingAddress();
+        const {
+            flat,
+            street,
+            district,
+            area,
+            city,
+            phoneNumber
+        } = addressType === 'shipping' ? customer.getShippingAddress() : customer.getBillingAddress();
         return `${firstName} ${lastName}${flat}${street}, ${district}, ${area}, ${city}T: ${phoneNumber}`;
     }
 }

@@ -7,6 +7,10 @@ import WaitUtility from "../../utilities/WaitUtility";
 let waitUtility
 
 export default class CheckoutPage {
+    /**
+     * @param {import('@playwright/test').Page} page
+     */
+
     constructor(page) {
         this.page = page
         waitUtility = new WaitUtility(this.page)

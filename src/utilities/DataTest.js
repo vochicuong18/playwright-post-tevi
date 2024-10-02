@@ -1,3 +1,4 @@
+import fs from 'fs'
 import Customer from '../entities/Customer';
 import Product from '../entities/product/Product.js'
 import Address from "../entities/Address";
@@ -5,9 +6,8 @@ import BundleProduct from "../entities/product/BundleProduct";
 import SimpleProduct from "../entities/product/SimpleProduct";
 import BundleItem from "../entities/product/BundleItem";
 
-const fs = require('fs');
-const customerRawData = fs.readFileSync('src/data/customer.json');
-const productRawData = fs.readFileSync('src/data/product.json')
+const customerRawData = fs.readFileSync('src/data/customer.json', 'utf-8');
+const productRawData = fs.readFileSync('src/data/product.json', 'utf-8')
 const customer = JSON.parse(customerRawData);
 const product = JSON.parse(productRawData)
 
@@ -48,6 +48,7 @@ export default class DataTest {
             .setSku(jsonData.sku)
             .setName(jsonData.name)
             .setPrice(price)
+            .setType(Product.ProductType.BUNDLE)
             .setQty(1)
             .setURL(jsonData.url)
             .setListProducts(productList)

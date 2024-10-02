@@ -1,6 +1,9 @@
 import OrderDetailsPage from "./OrderDetailsPage";
 
 export default class SuccessPage {
+    /**
+     * @param {import('@playwright/test').Page} page
+     */
     constructor(page) {
         this.page = page
         this.orderNumber = page.locator('a.order-number')
