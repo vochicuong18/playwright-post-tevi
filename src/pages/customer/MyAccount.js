@@ -1,11 +1,13 @@
 import {expect} from "@playwright/test";
 import WaitUtility from "../../utilities/WaitUtility";
 import StringUtility from "../../utilities/StringUtility";
-import ProductListPage from "../product/ProductListPage"
 
 let waitUtility
 
 export default class MyAccount {
+    /**
+     * @param {import('@playwright/test').Page} page
+     */
     constructor(page) {
         this.page = page
         waitUtility = new WaitUtility(this.page)

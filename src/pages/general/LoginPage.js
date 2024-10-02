@@ -4,6 +4,9 @@ import MyAccount from "../customer/MyAccount";
 let waitUtility
 
 class LoginPage {
+    /**
+     * @param {import('@playwright/test').Page} page
+     */
     constructor (page) {
         this.page = page;
         waitUtility = new WaitUtility(this.page);

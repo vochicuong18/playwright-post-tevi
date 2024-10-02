@@ -24,7 +24,6 @@ export const test = baseTest.extend({
         const page = await browser.newPage();
         await allure.tag(`${browser.browserType().name()} ${browser.version()}`)
         await Navigate.navigateToHomePage(page)
-        let headerPage = new HeaderPage(page)
         await use(page);
     },
 

@@ -3,15 +3,19 @@ import LoginPage from "./LoginPage"
 import ShoppingCartPage from "./ShoppingCartPage.js"
 import ProductListPage from "../product/ProductListPage";
 
+
 let waitUtility
 
 export default class HeaderPage {
+    /**
+     * @param {import('@playwright/test').Page} page
+     */
     constructor(page) {
         this.page = page;
         waitUtility = new WaitUtility(this.page);
-        this.lbLanguageEN = page.locator('css=#switcher-language-trigger strong.view-en_hk');
-        this.lbLanguageZH = page.locator('css=#switcher-language-trigger strong.view-zh_hk');
-        this.btnSwitchLanguage = page.locator('css=#switcher-language li.switcher-option>a');
+        this.lbLanguageEN = page.locator('#switcher-language-trigger strong.view-en_hk');
+        this.lbLanguageZH = page.locator('#switcher-language-trigger strong.view-zh_hk');
+        this.btnSwitchLanguage = page.locator('#switcher-language li.switcher-option>a');
         this.btnLogin = page.locator('.panel.header li.authorization-link>a');
         this.cartIcon = page.locator('a.action.showcart')
         this.lnkViewCart = page.locator('a.action.viewcart')
@@ -28,7 +32,7 @@ export default class HeaderPage {
     }
 
     async getURL() {
-        return await this.page.url()
+        return this.page.url();
 
     }
 

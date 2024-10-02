@@ -1,6 +1,9 @@
 import ProductDetailsPage from "./ProductDetailsPage"
 
-export default class {
+export default class ProductListPage {
+    /**
+     * @param {import('@playwright/test').Page} page
+     */
     constructor(page) {
         this.page = page
         this.productItem = (url) => {
@@ -8,7 +11,7 @@ export default class {
         }
     }
 
-    async goToProductDetails(product){
+    async goToProductDetails(product) {
         await this.productItem(product.getURL()).hover()
         await this.productItem(product.getURL()).click()
         return new ProductDetailsPage(this.page)

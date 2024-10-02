@@ -4,6 +4,9 @@ import LoginPage from "./LoginPage"
 let waitUtility
 
 export default class HomePage {
+    /**
+     * @param {import('@playwright/test').Page} page
+     */
     constructor (page) {
         this.page = page;
         waitUtility = new WaitUtility(this.page);
