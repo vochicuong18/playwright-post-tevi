@@ -64,6 +64,15 @@ export default class DataTest {
             .setBillingAddress(this.getBillingAddressTest())
             .build();
     }
+    static getCustomerTest2() {
+        return new Customer.Builder().setEmail(customer.user2.email)
+            .setFirstName(customer.user2.firstName)
+            .setLastName(customer.user2.lastName)
+            .setPassword(customer.user2.password)
+            .setShippingAddress(this.getShippingAddressTest())
+            .setBillingAddress(this.getBillingAddressTest())
+            .build();
+    }
 
     static getShippingAddressTest() {
         return new Address.Builder()

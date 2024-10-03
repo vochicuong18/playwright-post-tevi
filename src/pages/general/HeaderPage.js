@@ -25,6 +25,9 @@ export default class HeaderPage {
         this.emptyCartTitle = page.locator('.subtitle.empty')
         this.loadingMask = page.locator('div.cart-totals div.loader')
         this.body = page.locator('body#html-body')
+        this.lblWelcomeNotLogged = page.locator('div.panel.header span.not-logged-in')
+        this.expandAccountMenu = page.locator('div.header button[data-action="customer-menu-toggle"]')
+        this.lnkSignOut = page.getByRole("link", {name: "Sign Out"} )
     }
 
     async getTitle() {
@@ -79,6 +82,16 @@ export default class HeaderPage {
 
     async isEmptyCartTitleDisplayed() {
         return await this.emptyCartTitle.isVisible()
+    }
+
+    async signOut(){
+        await waitUtility.waitForNotPresentOf(this.lblWelcomeNotLogged)
+        await this.expandAccountMenu.click()
+        await this.lnkSignOut.click()
+        await this.page.waitForLoadState()
+        await waitUtility.waitForURLContains("/account/logoutSuccess/")
+        let currentUrl = this.page.url()
+        await waitUtility.waitForURLChange(currentUrl)
     }
 
 }

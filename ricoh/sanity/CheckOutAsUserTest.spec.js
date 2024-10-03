@@ -6,25 +6,9 @@ import HeaderPage from "../../src/pages/general/HeaderPage";
 import {paymentMethod} from '../../src/entities/Payment'
 import {shippingMethod} from "../../src/entities/Shipping";
 
-let page
-let headerPage
-let loginPage
-let myAccountPage
-let productListPage
-let productDetailsPage
-let shoppingCartPage
-let shippingPage
-let checkoutPage
-let successPage
-let orderDetailsPage
-let customer
-let simpleProduct
-let bundleProduct
-let cod
-let subTotal
-let shippingFee
-let grandTotal
-
+let page, headerPage, loginPage, myAccountPage, productListPage, productDetailsPage, shoppingCartPage, shippingPage,
+    checkoutPage, successPage, orderDetailsPage, customer, simpleProduct, bundleProduct, cod, subTotal, shippingFee,
+    grandTotal
 test.beforeAll('Prepare data', async ({browser}) => {
     page = await browser.newPage()
     headerPage = new HeaderPage(page)
@@ -38,7 +22,7 @@ test.afterAll('Clean up', async () => {
     await page.close()
 })
 
-test('Checkout as user with simple product', async () => {
+test('Checkout as user', async () => {
     await test.step('Login', async () => {
         await Navigate.navigateToHomePage(page)
         await headerPage.switchLanguage('English')
@@ -107,7 +91,7 @@ test('Checkout as user with simple product', async () => {
 })
 
 async function calculate() {
-    subTotal = simpleProduct.getPrice() * simpleProduct.getQty() + bundleProduct.getPrice() * bundleProduct.getQty()
+    subTotal = simpleProduct.getPrice() * simpleProduct.getQty() *2 + bundleProduct.getPrice() * bundleProduct.getQty()
     shippingFee = shippingMethod.bestWay.fee
     grandTotal = subTotal + shippingFee
 }

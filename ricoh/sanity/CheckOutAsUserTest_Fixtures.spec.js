@@ -22,6 +22,7 @@ test('Checkout as user', async ({language, headerPage, loginPage, myAccountPage,
         await productDetailsPage.addToCart(simpleProduct)
 
         await headerPage.searchProduct(bundleProduct)
+        await productListPage.goToProductDetails(bundleProduct)
         await productDetailsPage.addToCart(bundleProduct)
     })
 

@@ -14,12 +14,13 @@ import SuccessPage from "../pages/general/SuccessPage";
 import OrderDetailsPage from "../pages/general/OrderDetailsPage";
 import {paymentMethod} from '../entities/Payment';
 import {shippingMethod} from '../entities/Shipping';
+
 const allure = require("allure-js-commons");
 
 export const test = baseTest.extend({
     //Fixtures marked as "option: true" will get a value specified in the config,
     // or fallback to the default value.
-    language: ['English', { option: true }],
+    language: ['English', {option: true}],
     page: async ({browser}, use) => {
         const page = await browser.newPage();
         await allure.tag(`${browser.browserType().name()} ${browser.version()}`)
@@ -88,7 +89,7 @@ export const test = baseTest.extend({
     },
 
     calculated: async ({simpleProduct, bundleProduct, cod}, use) => {
-        const subTotal = simpleProduct.getPrice() * simpleProduct.getQty() + bundleProduct.getPrice() * bundleProduct.getQty();
+        const subTotal = simpleProduct.getPrice() * simpleProduct.getQty() * 2 + bundleProduct.getPrice() * bundleProduct.getQty();
         const shippingFee = shippingMethod.bestWay.fee;
         const grandTotal = subTotal + shippingFee;
         await use({subTotal, shippingFee, grandTotal});
