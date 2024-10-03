@@ -1,5 +1,6 @@
 import WaitUtility from "../../utilities/WaitUtility";
 import MyAccount from "../customer/MyAccount";
+import {test} from "@playwright/test";
 
 let waitUtility
 
@@ -18,14 +19,16 @@ class LoginPage {
     }
 
     async loginViaPassword(customer){
-        await this.chkLoginViaPassword.check()
-        await this.txtEmail.clear()
-        await this.txtEmail.fill(customer.getEmail())
-        await this.txtPassword.fill(customer.getPassword())
-        await this.btnLogin.click()
-        await waitUtility.waitForURLEndWith("/customer/account/")
-        await this.page.waitForLoadState()
-        await waitUtility.waitForNotPresentOf(this.lblWelcomeNotLogged)
+        await test.step(`Login with customer ${customer.getEmail()}`, async () => {
+            await this.chkLoginViaPassword.check()
+            await this.txtEmail.clear()
+            await this.txtEmail.fill(customer.getEmail())
+            await this.txtPassword.fill(customer.getPassword())
+            await this.btnLogin.click()
+            await waitUtility.waitForURLEndWith("/customer/account/")
+            await this.page.waitForLoadState()
+            await waitUtility.waitForNotPresentOf(this.lblWelcomeNotLogged)
+        })
         return new MyAccount(this.page)
     }
 }

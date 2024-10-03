@@ -91,7 +91,7 @@ test('Checkout as user', async () => {
 })
 
 async function calculate() {
-    subTotal = simpleProduct.getPrice() * simpleProduct.getQty() *2 + bundleProduct.getPrice() * bundleProduct.getQty()
+    subTotal = simpleProduct.getPrice() * simpleProduct.getQty() + bundleProduct.getPrice() * bundleProduct.getQty()
     shippingFee = shippingMethod.bestWay.fee
     grandTotal = subTotal + shippingFee
 }

@@ -1,6 +1,6 @@
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test');
-
+import os from "node:os";
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -10,7 +10,6 @@ const { defineConfig, devices } = require('@playwright/test');
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
-const path = require('path');
 module.exports = defineConfig({
   timeout: 0,
   testDir: './ricoh/sanity',
@@ -22,7 +21,19 @@ module.exports = defineConfig({
   retries: process.env.CI ? 1 : 0,
   /* Opt out of parallel tests on CI. */
   workers: 1,
-  reporter: 'allure-playwright',
+  reporter: [
+    [
+      "allure-playwright",
+      {
+        detail: false,
+        environmentInfo: {
+          OS: os.platform(),
+          Architecture: os.arch(),
+          NodeVersion: process.version,
+        },
+      },
+    ],
+  ],
   use: {
     actionTimeout: 30000,
     baseURL: 'https://ricoh.cloud.bluecomvn.com/',
@@ -36,7 +47,6 @@ module.exports = defineConfig({
     screenshot: {
       mode: 'only-on-failure',
       fullPage: true,
-      screenshotPath: path.join(__dirname, 'my-screenshots'),
     },
     launchOptions:{
       slowMo: 100,

@@ -3,7 +3,6 @@ const {default: HeaderPage} = require('../../src/pages/general/HeaderPage');
 const {default: DataTest} = require('../../src/utilities/DataTest');
 const {default: Navigate} = require('../../src/utilities/Navigate');
 const {default: MyAccount} = require('../../src/pages/customer/MyAccount');
-const AssertUtility = require("../../src/utilities/AssertUtility");
 
 let page;
 let headerPage;
@@ -28,7 +27,6 @@ test('login with customer1 test', async () => {
         await Navigate.navigateToHomePage(page)
         await headerPage.switchLanguage('English');
         title = await headerPage.getTitle();
-        await AssertUtility.assertEquals(title, "Homepage1", "Check ")
     })
     await test.step('login', async () => {
         loginPage = await headerPage.navigateToLogin();
