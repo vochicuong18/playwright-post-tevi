@@ -33,7 +33,7 @@ test('Checkout as user', async () => {
 
     await test.step('Check cart empty', async () => {
         await headerPage.viewMiniCart()
-        if (!await headerPage.isEmptyCartTitleDisplayed()) {
+        if (!await headerPage.isCartEmpty()) {
             shoppingCartPage = await headerPage.viewShoppingCart()
             await shoppingCartPage.empty()
         }

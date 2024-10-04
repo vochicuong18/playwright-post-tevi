@@ -1,7 +1,8 @@
-import {expect} from "@playwright/test";
+import {expect, test} from "@playwright/test";
 import ShippingPage from "./ShippingPage";
 import PriceUtility from "../../utilities/PriceUtility";
 import WaitUtility from "../../utilities/WaitUtility";
+import AssertUtility from "../../utilities/AssertUtility";
 
 let waitUtility
 export default class ShoppingCartPage {
@@ -26,34 +27,46 @@ export default class ShoppingCartPage {
     }
 
     async goToShippingPage() {
-        await waitUtility.waitForNotPresentOf(this.loadingMask)
-        await this.btnCheckout.click()
+        await test.step(`Go to shipping page`, async () => {
+            await waitUtility.waitForNotPresentOf(this.loadingMask)
+            await this.btnCheckout.click()
+            await this.page.waitForLoadState("domcontentloaded")
+        })
         return new ShippingPage(this.page)
     }
 
     async checkProduct(product) {
-        let gui = await this.productSubtotal(product.getName()).textContent()
-        let data = await PriceUtility.convertPriceToString(product.getQty() * product.getPrice())
-        await expect.soft(this.productItem(product.getName())).toBeVisible();
-        await expect.soft(gui, `Check product grand total gui: ${gui} - data: ${data} `).toEqual(data)
+        await test.step(`Check product ${product.getName()}`, async () => {
+            let gui = await this.productSubtotal(product.getName()).textContent()
+            let data = await PriceUtility.convertPriceToString(product.getQty() * product.getPrice())
+            await AssertUtility.assertTrue(await this.productItem(product.getName()).isVisible(), `Check ${product.getName()} displayed`)
+            await AssertUtility.assertEquals(gui, data, "Check product grand total")
+        })
     }
 
     async checkSubTotal(subTotal) {
-        let data = await PriceUtility.convertPriceToString(subTotal)
-        let gui = await this.subTotal.textContent()
-        await expect.soft(gui, "Check sub total").toEqual(data)
+        await test.step(`Check cart subtotal`, async () => {
+            let data = await PriceUtility.convertPriceToString(subTotal)
+            let gui = await this.subTotal.textContent()
+            await AssertUtility.assertEquals(gui, data, "Check subtotal")
+        })
     }
 
     async checkGrandTotal(grandTotal) {
-        let data = await PriceUtility.convertPriceToString(grandTotal)
-        let gui = await this.grandTotal.textContent()
-        await expect.soft(gui, "check grand total").toEqual(data)
+        await test.step(`Check cart grand total`, async () => {
+            let data = await PriceUtility.convertPriceToString(grandTotal)
+            let gui = await this.grandTotal.textContent()
+            await AssertUtility.assertEquals(gui, data, "Check grand total")
+        })
     }
 
     async empty() {
-        while (await this.btnDeleteItem.count() > 0) {
-            await this.btnDeleteItem.first().click()
-            await this.page.waitForLoadState()
-        }
+        await test.step(`Clear all item in the shopping cart`, async () => {
+            while (await this.btnDeleteItem.count() > 0) {
+                await this.btnDeleteItem.first().click()
+                await this.page.waitForLoadState()
+            }
+        })
+
     }
 }

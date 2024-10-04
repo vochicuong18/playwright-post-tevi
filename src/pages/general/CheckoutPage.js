@@ -1,8 +1,9 @@
-import {expect} from "@playwright/test";
+import {expect, test} from "@playwright/test";
 import SuccessPage from "./SuccessPage";
 import PriceUtility from "../../utilities/PriceUtility";
 import StringUtility from "../../utilities/StringUtility";
 import WaitUtility from "../../utilities/WaitUtility";
+import AssertUtility from "../../utilities/AssertUtility";
 
 let waitUtility
 
@@ -29,59 +30,85 @@ export default class CheckoutPage {
     }
 
     async checkSubTotal(subtotal) {
-        let gui = await this.subTotal.textContent()
-        let data = await PriceUtility.convertPriceToString(subtotal)
-        await expect.soft(gui).toEqual(data)
+        await test.step(`Check order subtotal`, async () => {
+            let gui = await this.subTotal.textContent()
+            let data = await PriceUtility.convertPriceToString(subtotal)
+            await AssertUtility.assertEquals(gui, data, "Check subtotal")
+        })
+
     }
 
     async checkShippingFree(shippingFee) {
-        let gui = await this.shippingFee.textContent()
-        let data = await PriceUtility.convertPriceToString(shippingFee)
-        await expect.soft(gui).toEqual(data)
+        await test.step(`Check order shipping fee`, async () => {
+            let gui = await this.shippingFee.textContent()
+            let data = await PriceUtility.convertPriceToString(shippingFee)
+            await AssertUtility.assertEquals(gui, data, "Check order shipping fee")
+        })
     }
 
     async checkGrandTotal(grandTotal) {
-        let gui = await this.grandTotal.textContent()
-        let data = await PriceUtility.convertPriceToString(grandTotal)
-        await expect.soft(gui).toEqual(data)
+        await test.step(`Check order grand total`, async () => {
+            let gui = await this.grandTotal.textContent()
+            let data = await PriceUtility.convertPriceToString(grandTotal)
+            await AssertUtility.assertEquals(gui, data, "Check order grand total")
+        })
     }
 
     async checkShippingAddress(customer) {
-        let gui = await this.shippingAddress.textContent()
-        gui = StringUtility.removeLines(StringUtility.removeRedundantCharacter(gui, "  ")).trim()
-        let data = this.formatAddress(customer, 'shipping')
-        await expect.soft(gui).toEqual(data)
+
+        await test.step(`Check shipping address`, async () => {
+            let gui = await this.shippingAddress.textContent()
+            gui = StringUtility.removeLines(StringUtility.removeRedundantCharacter(gui, "  ")).trim()
+            let data = this.formatAddress(customer, 'shipping')
+            await AssertUtility.assertEquals(gui, data, "Check shipping address")
+        })
     }
 
     async checkBillingAddress(customer) {
-        let gui = await this.billingAddress.textContent()
-        gui = StringUtility.removeLines(StringUtility.removeRedundantCharacter(gui, "  "))
-            .replace("Billing address", "")
-            .replace("Edit", "").trim()
-        let data = this.formatAddress(customer, 'billing')
-        await expect.soft(gui).toEqual(data)
+        await test.step(`Check billing address`, async () => {
+            let gui = await this.billingAddress.textContent()
+            gui = StringUtility.removeLines(StringUtility.removeRedundantCharacter(gui, "  "))
+                .replace("Billing address", "")
+                .replace("Edit", "").trim()
+            let data = this.formatAddress(customer, 'billing')
+            await AssertUtility.assertEquals(gui, data, "Check billing address")
+        })
     }
 
     async selectPaymentMethod(paymentMethod) {
-        await this.cbPaymentMethod(paymentMethod).click()
-        await waitUtility.waitForNotPresentOf(this.loadingMask)
-        await waitUtility.waitForNotPresentOf(this.summaryLoadingMask)
+        await test.step(`Select ${paymentMethod} method`, async () => {
+            await this.cbPaymentMethod(paymentMethod).click()
+            await waitUtility.waitForNotPresentOf(this.loadingMask)
+            await waitUtility.waitForNotPresentOf(this.summaryLoadingMask)
+        })
+
     }
 
     async agreeTerm() {
-        await this.cbCheckoutAgreement.click()
+        await test.step("Agree term", async () => {
+            await this.cbCheckoutAgreement.click()
+        })
     }
 
     async placeOrder() {
-        await this.btnCheckout.click()
-        await this.page.waitForURL("**/checkout/onepage/success/")
-        await this.page.waitForLoadState()
+        await test.step("Place order", async () => {
+            await this.btnCheckout.click()
+            await this.page.waitForURL("**/checkout/onepage/success/")
+            await this.page.waitForLoadState()
+        })
         return new SuccessPage(this.page)
     }
 
     formatAddress(customer, addressType) {
-        const { firstName, lastName } = customer;
-        const { flat, street, district, area, city, phoneNumber } = addressType === 'shipping' ? customer.getShippingAddress() : customer.getBillingAddress();
+        const {firstName, lastName} = customer;
+        const {
+            flat,
+            street,
+            district,
+            area,
+            city,
+            phoneNumber
+        } = addressType === 'shipping' ? customer.getShippingAddress() : customer.getBillingAddress();
         return `${firstName}  ${lastName}   ${flat} ${street},  ${district},  ${area}  ${city} ${phoneNumber}`;
     }
 }

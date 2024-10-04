@@ -1,5 +1,6 @@
 import CheckoutPage from "./CheckoutPage";
 import WaitUtility from "../../utilities/WaitUtility";
+import {test} from "@playwright/test";
 
 let waitUtility
 
@@ -19,12 +20,15 @@ export default class ShippingPage {
     }
 
     async gotoCheckOutPage() {
-        await this.btnNext.click()
-        await waitUtility.waitForURLEndWith("/checkout/#payment")
-        await this.page.waitForLoadState()
-        await waitUtility.waitForNotPresentOf(this.loadingMask)
-        await waitUtility.waitForNotPresentOf(this.summaryLoadingMask)
-        await this.page.waitForLoadState('domcontentloaded')
+        await test.step(`Go to checkout page`, async () => {
+            await this.btnNext.click()
+            await waitUtility.waitForURLEndWith("/checkout/#payment")
+            await this.page.waitForLoadState()
+            await waitUtility.waitForNotPresentOf(this.loadingMask)
+            await waitUtility.waitForNotPresentOf(this.summaryLoadingMask)
+            await this.page.waitForLoadState('domcontentloaded')
+        })
+
         return new CheckoutPage(this.page)
     }
 

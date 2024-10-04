@@ -10,7 +10,7 @@ test('Checkout as user', async ({language, headerPage, loginPage, myAccountPage,
 
     await test.step('Check cart empty', async () => {
         await headerPage.viewMiniCart()
-        if (!await headerPage.isEmptyCartTitleDisplayed()) {
+        if (!await headerPage.isCartEmpty()) {
             await headerPage.viewShoppingCart()
             await shoppingCartPage.empty()
         }
