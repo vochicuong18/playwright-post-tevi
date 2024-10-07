@@ -1,4 +1,4 @@
-import test from '../../src/utilities/fixture'
+import test from '../../src/utilities/fixtures'
 
 test.describe( () => {
 test.beforeAll('Navigate to homepage', async ({page}) => {
