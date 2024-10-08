@@ -1,4 +1,5 @@
 import OrderDetailsPage from "./OrderDetailsPage";
+import {test} from "@playwright/test";
 
 export default class SuccessPage {
     /**
@@ -9,10 +10,12 @@ export default class SuccessPage {
         this.orderNumber = page.locator('a.order-number')
     }
 
-    async goToOrderDetailPage () {
-        await this.orderNumber.click()
-        await this.page.waitForURL("**/order/view/order_id/**")
-        await this.page.waitForLoadState()
+    async goToOrderDetailPage() {
+        await test.step(`Go to order details page`, async () => {
+            await this.orderNumber.click()
+            await this.page.waitForURL("**/order/view/order_id/**")
+            await this.page.waitForLoadState()
+        })
         return new OrderDetailsPage(this.page)
     }
 

@@ -1,6 +1,7 @@
 import WaitUtility from "../../utilities/WaitUtility";
 import Product from "../../entities/product/Product";
 import BundleItem from "../../entities/product/BundleItem";
+import {test} from "@playwright/test";
 
 let waitUtility
 
@@ -25,22 +26,27 @@ export default class ProductDetailsPage {
     }
 
     async addToCart(product) {
-        if (product.getType() === Product.ProductType.BUNDLE) {
-            await this.customizeBundleProduct(product)
-        }
-        await this.productQty.fill(product.getQty().toString())
-        await this.btnAddToCart.click()
-        await waitUtility.waitForValueOfAttributeDoesNotContains(this.cartCountLoading, "class", "_block-content-loading")
-        await waitUtility.waitForPresentOf(this.successMessage)
+        await test.step(`Add ${product.getName()} to cart`, async () => {
+            if (product.getType() === Product.ProductType.BUNDLE) {
+                await this.customizeBundleProduct(product)
+            }
+            await this.productQty.fill(product.getQty().toString())
+            await this.btnAddToCart.click()
+            await waitUtility.waitForValueOfAttributeDoesNotContains(this.cartCountLoading, "class", "_block-content-loading")
+            await waitUtility.waitForPresentOf(this.successMessage)
+        })
     }
 
     async customizeBundleProduct(product) {
-        await this.btnCustomize.click();
-        for (const item of product.getListProducts()) {
-            if (item.getBundleItemType() === BundleItem.Type.CHECKBOX) {
-                await this.cbBundleItem(item.getName()).click();
+        await test.step(`Customize bundle product`, async () => {
+            await this.btnCustomize.click();
+            for (const item of product.getListProducts()) {
+                if (item.getBundleItemType() === BundleItem.Type.CHECKBOX) {
+                    await this.cbBundleItem(item.getName()).click();
+                }
+                await this.txtBundleItemQty(item.getName()).fill(item.getQty().toString());
             }
-            await this.txtBundleItemQty(item.getName()).fill(item.getQty().toString());
-        }
+        })
+
     }
 }

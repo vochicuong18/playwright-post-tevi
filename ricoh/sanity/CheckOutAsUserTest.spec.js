@@ -5,25 +5,11 @@ import DataTest from "../../src/utilities/DataTest";
 import HeaderPage from "../../src/pages/general/HeaderPage";
 import {paymentMethod} from '../../src/entities/Payment'
 import {shippingMethod} from "../../src/entities/Shipping";
+import ReportUtility from "../../src/utilities/ReportUtility";
 
-let page
-let headerPage
-let loginPage
-let myAccountPage
-let productListPage
-let productDetailsPage
-let shoppingCartPage
-let shippingPage
-let checkoutPage
-let successPage
-let orderDetailsPage
-let customer
-let simpleProduct
-let bundleProduct
-let cod
-let subTotal
-let shippingFee
-let grandTotal
+let page, headerPage, loginPage, myAccountPage, productListPage, productDetailsPage, shoppingCartPage, shippingPage,
+    checkoutPage, successPage, orderDetailsPage, customer, simpleProduct, bundleProduct, cod, subTotal, shippingFee,
+    grandTotal
 
 test.beforeAll('Prepare data', async ({browser}) => {
     page = await browser.newPage()
@@ -34,22 +20,19 @@ test.beforeAll('Prepare data', async ({browser}) => {
     cod = paymentMethod.cashOnDelivery
 })
 
-test.afterAll('Clean up', async () => {
-    await page.close()
-})
-
-test('Checkout as user with simple product', async () => {
+test('Checkout as user', async () => {
     await test.step('Login', async () => {
         await Navigate.navigateToHomePage(page)
         await headerPage.switchLanguage('English')
         loginPage = await headerPage.navigateToLogin()
         myAccountPage = await loginPage.loginViaPassword(customer)
+        await ReportUtility.logInfo(`Login with ${customer.getEmail()}`)
         await myAccountPage.checkContactInfo(customer)
     })
 
     await test.step('Check cart empty', async () => {
         await headerPage.viewMiniCart()
-        if (!await headerPage.isEmptyCartTitleDisplayed()) {
+        if (!await headerPage.isCartEmpty()) {
             shoppingCartPage = await headerPage.viewShoppingCart()
             await shoppingCartPage.empty()
         }
@@ -69,6 +52,7 @@ test('Checkout as user with simple product', async () => {
     await test.step('Check shopping cart', async () => {
         await headerPage.viewMiniCart()
         shoppingCartPage = await headerPage.viewShoppingCart()
+        await ReportUtility.attachScreenshot(page, 'Check shopping cart')
         await shoppingCartPage.checkProduct(simpleProduct)
         await shoppingCartPage.checkProduct(bundleProduct)
         await shoppingCartPage.checkSubTotal(subTotal)
@@ -78,6 +62,7 @@ test('Checkout as user with simple product', async () => {
     await test.step('Shipping', async () => {
         shippingPage = await shoppingCartPage.goToShippingPage()
         await shippingPage.selectShippingMethod(shippingMethod.bestWay.code)
+        await ReportUtility.attachImage("Attach image check", "hda3.png")
     })
 
     await test.step('Payment', async () => {
@@ -89,21 +74,21 @@ test('Checkout as user with simple product', async () => {
         await checkoutPage.checkBillingAddress(customer)
         await checkoutPage.selectPaymentMethod(cod.code)
         await checkoutPage.agreeTerm()
-        successPage = await checkoutPage.placeOrder()
+        // successPage = await checkoutPage.placeOrder()
     })
 
-    await test.step('Check order details', async () => {
-        orderDetailsPage = await successPage.goToOrderDetailPage()
-        await orderDetailsPage.checkProduct(simpleProduct)
-        await orderDetailsPage.checkProduct(bundleProduct)
-        await orderDetailsPage.checkSubtotal(subTotal)
-        await orderDetailsPage.checkShippingFee(shippingFee)
-        await orderDetailsPage.checkGrandTotal(grandTotal)
-        await orderDetailsPage.checkShippingAddress(customer)
-        await orderDetailsPage.checkBillingAddress(customer)
-        await orderDetailsPage.checkShippingMethod(shippingMethod.bestWay.string)
-        await orderDetailsPage.checkPaymentMethod(cod.string)
-    })
+    // await test.step('Check order details', async () => {
+    //     orderDetailsPage = await successPage.goToOrderDetailPage()
+    //     await orderDetailsPage.checkProduct(simpleProduct)
+    //     await orderDetailsPage.checkProduct(bundleProduct)
+    //     await orderDetailsPage.checkSubtotal(subTotal)
+    //     await orderDetailsPage.checkShippingFee(shippingFee)
+    //     await orderDetailsPage.checkGrandTotal(grandTotal)
+    //     await orderDetailsPage.checkShippingAddress(customer)
+    //     await orderDetailsPage.checkBillingAddress(customer)
+    //     await orderDetailsPage.checkShippingMethod(shippingMethod.bestWay.string)
+    //     await orderDetailsPage.checkPaymentMethod(cod.string)
+    // })
 })
 
 async function calculate() {

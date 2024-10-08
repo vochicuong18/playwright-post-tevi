@@ -1,6 +1,7 @@
-import {expect} from "@playwright/test";
+import {expect, test} from "@playwright/test";
 import WaitUtility from "../../utilities/WaitUtility";
 import StringUtility from "../../utilities/StringUtility";
+import AssertUtility from "../../utilities/AssertUtility";
 
 let waitUtility
 
@@ -19,9 +20,12 @@ export default class MyAccount {
     }
 
     async checkContactInfo(customer) {
-        let data = await customer.getFirstName() + " " + customer.getLastName() + " " + customer.getEmail()
-        let gui = await StringUtility.getText(this.lbContactInfo)
-        await expect.soft(this.email, 'Check customer email logged in successfully').toContainText(customer.getEmail())
-        await expect.soft(gui).toEqual(data)
+        await test.step(`Check contact info`, async () => {
+            let data = await customer.getFirstName() + " " + customer.getLastName() + " " + customer.getEmail()
+            let gui = await StringUtility.getText(this.lbContactInfo)
+            await AssertUtility.assertContains(await this.email.textContent(), customer.getEmail(), "Check customer email logged in successfully")
+            await AssertUtility.assertEquals(gui, data, "Check contact information")
+        })
+
     }
 }

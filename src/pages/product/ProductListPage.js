@@ -1,4 +1,5 @@
 import ProductDetailsPage from "./ProductDetailsPage"
+import {test} from "@playwright/test";
 
 export default class ProductListPage {
     /**
@@ -12,8 +13,10 @@ export default class ProductListPage {
     }
 
     async goToProductDetails(product) {
-        await this.productItem(product.getURL()).hover()
-        await this.productItem(product.getURL()).click()
+        await test.step(`Go to ${product.getName()}  details page`, async () => {
+            await this.productItem(product.getURL()).hover()
+            await this.productItem(product.getURL()).click()
+        })
         return new ProductDetailsPage(this.page)
     }
 }

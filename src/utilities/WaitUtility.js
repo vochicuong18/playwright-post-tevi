@@ -31,6 +31,12 @@ class WaitUtility {
         }
     }
 
+    async waitForURLChange(url) {
+        await this.page.waitForFunction((url) => {
+            return window.location.href !== url
+        }, url)
+    }
+
     async waitForValueOfAttributeDoesNotContains(element, attributeName, expectedValue) {
         await this.page.waitForFunction((data) => {
             return !document.querySelector(data.selector).getAttribute(data.attribute).includes(data.expected);

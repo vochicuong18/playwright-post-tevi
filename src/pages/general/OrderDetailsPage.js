@@ -1,6 +1,8 @@
 import PriceUtility from "../../utilities/PriceUtility";
-import {expect} from "../../utilities/fixtures1";
+import {expect} from "../../utilities/Fixtures";
 import StringUtility from "../../utilities/StringUtility";
+import {test} from "@playwright/test";
+import AssertUtility from "../../utilities/AssertUtility";
 
 export default class OrderDetailsPage {
     /**
@@ -26,52 +28,69 @@ export default class OrderDetailsPage {
     }
 
     async checkProduct(product) {
-        let priceGui = await this.productSubtotal(product.getName()).textContent()
-        let priceData = await PriceUtility.convertPriceToString(product.getPrice() * product.getQty())
-        await expect.soft(this.productItem(product.getName())).toBeVisible()
-        await expect.soft(priceGui).toEqual(priceData)
+        await test.step(`Check product ${product.getName()}`, async () => {
+            let priceGui = await this.productSubtotal(product.getName()).textContent()
+            let priceData = await PriceUtility.convertPriceToString(product.getPrice() * product.getQty())
+            await AssertUtility.assertTrue(await this.productItem(product.getName()).isVisible(), `Check ${product.getName()} displayed`)
+            await AssertUtility.assertEquals(priceGui, priceData, "Check product grand total")
+        })
+
     }
 
     async checkSubtotal(subtotal) {
-        let gui = await this.subTotal.textContent()
-        let data = await PriceUtility.convertPriceToString(subtotal)
-        await expect.soft(gui).toEqual(data)
+        await test.step(`Check order subtotal`, async () => {
+            let gui = await this.subTotal.textContent()
+            let data = await PriceUtility.convertPriceToString(subtotal)
+            await AssertUtility.assertEquals(gui, data, "Check subtotal")
+        })
     }
 
     async checkShippingFee(shippingFee) {
-        let gui = await this.shippingFee.textContent()
-        let data = await PriceUtility.convertPriceToString(shippingFee)
-        await expect.soft(gui).toEqual(data)
+        await test.step(`Check order shipping fee`, async () => {
+            let gui = await this.shippingFee.textContent()
+            let data = await PriceUtility.convertPriceToString(shippingFee)
+            await AssertUtility.assertEquals(gui, data, "Check order shipping fee")
+        })
     }
 
     async checkGrandTotal(grandTotal) {
-        let gui = await this.grandTotal.textContent()
-        let data = await PriceUtility.convertPriceToString(grandTotal)
-        await expect.soft(gui).toEqual(data)
+        await test.step(`Check order grand total`, async () => {
+            let gui = await this.grandTotal.textContent()
+            let data = await PriceUtility.convertPriceToString(grandTotal)
+            await AssertUtility.assertEquals(gui, data, "Check order grand total")
+        })
     }
 
     async checkShippingAddress(customer) {
-        let gui = await this.shippingAddress.textContent()
-        gui = StringUtility.removeLines(StringUtility.removeRedundantCharacter(gui, "  ")).trim()
-        let data = this.formatAddress(customer, 'shipping')
-        await expect.soft(gui).toEqual(data)
+        await test.step("Check shipping address", async () => {
+            let gui = await this.shippingAddress.textContent()
+            gui = StringUtility.removeLines(StringUtility.removeRedundantCharacter(gui, "  ")).trim()
+            let data = this.formatAddress(customer, 'shipping')
+            await AssertUtility.assertEquals(gui, data, "Check shipping address")
+        })
     }
 
     async checkBillingAddress(customer) {
-        let gui = await this.billingAddress.textContent()
-        gui = StringUtility.removeLines(StringUtility.removeRedundantCharacter(gui, "  ")).trim()
-        let data = this.formatAddress(customer, 'billing')
-        await expect.soft(gui).toEqual(data)
+        await test.step("Check shipping address", async () => {
+            let gui = await this.billingAddress.textContent()
+            gui = StringUtility.removeLines(StringUtility.removeRedundantCharacter(gui, "  ")).trim()
+            let data = this.formatAddress(customer, 'billing')
+            await AssertUtility.assertEquals(gui, data, "Check billing address")
+        })
     }
 
     async checkShippingMethod(shippingMethod) {
-        let gui = await this.shippingMethod.textContent()
-        await expect.soft(gui.trim()).toEqual(shippingMethod)
+        await test.step(`Check ${shippingMethod} shipping method`, async () => {
+            let gui = await this.shippingMethod.textContent()
+            await AssertUtility.assertEquals(gui.trim(), shippingMethod, "Check shipping method")
+        })
     }
 
     async checkPaymentMethod(paymentMethod) {
-        let gui = await this.paymentMethod.textContent()
-        await expect.soft(gui.trim(), "Check payment method").toEqual(paymentMethod)
+        await test.step(`Check ${paymentMethod} payment method`, async () => {
+            let gui = await this.paymentMethod.textContent()
+            await AssertUtility.assertEquals(gui.trim(), paymentMethod, "Check payment method")
+        })
     }
 
     formatAddress(customer, addressType) {

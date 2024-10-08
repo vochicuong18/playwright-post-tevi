@@ -1,4 +1,4 @@
-import {test} from "../../src/utilities/fixtures1";
+import {test} from "../../src/utilities/Fixtures";
 test('Checkout as user', async ({language, headerPage, loginPage, myAccountPage, productListPage, productDetailsPage, shoppingCartPage, shippingPage, checkoutPage, successPage, orderDetailsPage ,customer, simpleProduct, bundleProduct, cod, bestWay, calculated:{subTotal, shippingFee, grandTotal} }) => {
 
     await test.step('Login', async () => {
@@ -10,7 +10,7 @@ test('Checkout as user', async ({language, headerPage, loginPage, myAccountPage,
 
     await test.step('Check cart empty', async () => {
         await headerPage.viewMiniCart()
-        if (!await headerPage.isEmptyCartTitleDisplayed()) {
+        if (!await headerPage.isCartEmpty()) {
             await headerPage.viewShoppingCart()
             await shoppingCartPage.empty()
         }
@@ -22,6 +22,7 @@ test('Checkout as user', async ({language, headerPage, loginPage, myAccountPage,
         await productDetailsPage.addToCart(simpleProduct)
 
         await headerPage.searchProduct(bundleProduct)
+        await productListPage.goToProductDetails(bundleProduct)
         await productDetailsPage.addToCart(bundleProduct)
     })
 

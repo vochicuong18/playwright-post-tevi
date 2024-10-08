@@ -1,44 +1,44 @@
 // @ts-check
-const { defineConfig, devices } = require('@playwright/test');
-
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config({ path: path.resolve(__dirname, '.env') });
-
+import {defineConfig, devices} from '@playwright/test';
+import os from "node:os";
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
 module.exports = defineConfig({
   timeout: 0,
   testDir: './ricoh/sanity',
-  /* Run tests in files in parallel */
-  fullyParallel: false,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 1 : 0,
-  /* Opt out of parallel tests on CI. */
   workers: 1,
-  reporter: 'allure-playwright',
+  reporter: [
+    [
+      "allure-playwright",
+      {
+        detail: false,
+        environmentInfo: {
+          OS: os.platform(),
+          OSVersion: os.version(),
+          Architecture: os.arch(),
+          NodeVersion: process.version,
+        },
+      },
+    ],
+  ],
   use: {
+    actionTimeout: 30000,
+    baseURL: 'https://ricoh.cloud.bluecomvn.com/',
+    headless: false,
     language: {
       en: 'English',
       cn: '简体中文'
     },
-    baseURL: 'https://ricoh.cloud.bluecomvn.com/',
-    trace: 'on-first-retry',
+    video: 'on',
     screenshot: {
       mode: 'only-on-failure',
       fullPage: true,
     },
-    video: 'on',
-    headless: false,
     launchOptions:{
-      slowMo: 100
-    },
-    actionTimeout: 30000 //30s for timeout per action
+      slowMo: 100,
+      args: ['--start-maximized']
+    }
   },
 
   /* Configure projects for major browsers */
@@ -50,12 +50,8 @@ module.exports = defineConfig({
         deviceScaleFactor: undefined,
         channel: 'chrome',
         viewport: null,
-        launchOptions: {
-          args: ['--start-maximized']
-        },
       },
     },
   ],
-
 });
 
