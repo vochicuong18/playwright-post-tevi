@@ -96,8 +96,8 @@ export const test = baseTest.extend({
     },
 });
 
-export const expect = baseExpect.extend({
-    screenshot: async page => {
-        await page.screenshot({path: `abc${Math.floor(Math.random() * 100) + 1}.png`})
-    }
-})
+// export const expect = baseExpect.extend({
+//     screenshot: async page => {
+//         await page.screenshot({path: `abc${Math.floor(Math.random() * 100) + 1}.png`})
+//     }
+// })

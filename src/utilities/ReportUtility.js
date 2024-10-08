@@ -2,31 +2,45 @@ import {ContentType, Status} from "allure-js-commons";
 
 const allure = require("allure-js-commons");
 
+/**
+ * https://allurereport.org/docs/test-statuses/
+ * */
+
 export default class ReportUtility {
-    constructor(page) {
-        this.page = page
+
+    static async logInfo(description) {
+        await allure.attachment(description, "", ContentType.TEXT)
+        // await allure.attachment("Log info", description, ContentType.TEXT)
     }
 
-
-    async attachScreenshot(description) {
-        await allure.attachment(description, await this.page.screenshot(), {contentType: "image/png"})
-    }
-
-    async attachImage(description, path) {
-        await allure.attachmentPath(description, path, {
-            contentType: ContentType.PNG,
-            fileExtension: "png"
-        })
-    }
-
-    async logPassed(description) {
+    static async logPassed(description) {
         await allure.logStep(description, Status.PASSED)
     }
 
-    async logFailure(description) {
+    static async logFailed(description) {
         await allure.logStep(description, Status.FAILED)
     }
 
-    async logInfo(description) {
+    static async logBroken(description) {
+        await allure.logStep(description, Status.BROKEN)
+    }
+
+    static async logSkipped(description) {
+        await allure.logStep(description, Status.SKIPPED)
+    }
+
+    static async attachScreenshot(page, description) {
+        await allure.attachment(
+            description,
+            await page.screenshot({fullPage: true}),
+            {contentType: "image/png"})
+    }
+
+    static async attachImage(description, path) {
+        await allure.attachmentPath(description, path, {contentType: ContentType.PNG})
+    }
+
+    static async attachFile(description, contentType, path) {
+        await allure.attachmentPath(description, path, contentType)
     }
 }

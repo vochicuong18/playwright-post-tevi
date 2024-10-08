@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import test from "../../src/utilities/fixtures";
+import test from "../../src/utilities/Fixtures";
 
 const title = 'Home Page'
 
