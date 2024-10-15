@@ -17,12 +17,12 @@ export default class HeaderPage {
         this.lbLanguageEN = page.locator('#switcher-language-trigger strong.view-en_hk');
         this.lbLanguageZH = page.locator('#switcher-language-trigger strong.view-zh_hk');
         this.btnSwitchLanguage = page.locator('#switcher-language li.switcher-option>a');
+        this.lblLanguage = page.locator('#switcher-language-trigger strong');
         this.btnLogin = page.locator('.panel.header li.authorization-link>a');
         this.cartIcon = page.locator('a.action.showcart')
         this.lnkViewCart = page.locator('a.action.viewcart')
         this.txtSearch = page.locator('input#search')
         this.btnAcceptCookie = page.locator('button#btn-cookie-allow')
-        this.cartCountEmpty = page.locator("//div[@class='minicart-wrapper']//span[contains(@class, 'counter qty empty')]")
         this.emptyCartTitle = page.locator('.subtitle.empty')
         this.loadingMask = page.locator('div.cart-totals div.loader')
         this.body = page.locator('body#html-body')
@@ -40,19 +40,21 @@ export default class HeaderPage {
 
     }
 
+    async acceptCookie() {
+        await test.step(`Accept cookie`, async () => {
+            await this.btnAcceptCookie.click()
+        })
+    }
+
     async switchLanguage(language) {
         await test.step(`Switch to ${language}`, async () => {
-            await this.btnAcceptCookie.click()
-            if (language === 'English') {
-                await this.lbLanguageZH.click();
-                await this.btnSwitchLanguage.click();
-            } else {
-                await this.lbLanguageEN.click();
-                await this.btnSwitchLanguage.click();
+            let currentLanguage = await this.lblLanguage.textContent()
+            if (currentLanguage !== language) {
+                let btnLanguage = (language === "en") ? this.lbLanguageZH : this.lbLanguageEN
+                await btnLanguage.click()
+                await this.btnSwitchLanguage.click()
             }
-            await waitUtility.sleep(2);
         })
-
     }
 
     async navigateToLogin() {
@@ -81,7 +83,6 @@ export default class HeaderPage {
             await waitUtility.waitForPresentOf(this.loadingMask)
             await waitUtility.waitForNotPresentOf(this.loadingMask)
         })
-
         return new ShoppingCartPage(this.page)
     }
 
@@ -108,5 +109,4 @@ export default class HeaderPage {
             await waitUtility.waitForURLChange(currentUrl)
         })
     }
-
 }

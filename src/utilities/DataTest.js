@@ -10,22 +10,26 @@ const customerRawData = fs.readFileSync('src/data/customer.json', 'utf-8');
 const productRawData = fs.readFileSync('src/data/product.json', 'utf-8')
 const customer = JSON.parse(customerRawData);
 const product = JSON.parse(productRawData)
-
+let language = process.env.LANGUAGE
 export default class DataTest {
+
+    static getLanguage() {
+        return language
+    }
 
     static getSimpleProductTest() {
         return new SimpleProduct.Builder()
-            .setSku(product.simple_product.sku)
-            .setName(product.simple_product.name)
+            .setSku(product[language].simple_product.sku)
+            .setName(product[language].simple_product.name)
             .setType(Product.ProductType.SIMPLE)
-            .setPrice(product.simple_product.price)
-            .setQty(product.simple_product.qty)
-            .setURL(product.simple_product.url)
+            .setPrice(product[language].simple_product.price)
+            .setQty(product[language].simple_product.qty)
+            .setURL(product[language].simple_product.url)
             .build()
     }
 
     static getBundleProductTest() {
-        const jsonData = product.bundle_product
+        const jsonData = product[language].bundle_product
         const productList = [];
         let price = 0;
 
@@ -56,19 +60,20 @@ export default class DataTest {
     }
 
     static getCustomerTest() {
-        return new Customer.Builder().setEmail(customer.user1.email)
-            .setFirstName(customer.user1.firstName)
-            .setLastName(customer.user1.lastName)
-            .setPassword(customer.user1.password)
+        return new Customer.Builder().setEmail(customer[language].user1.email)
+            .setFirstName(customer[language].user1.firstName)
+            .setLastName(customer[language].user1.lastName)
+            .setPassword(customer[language].user1.password)
             .setShippingAddress(this.getShippingAddressTest())
             .setBillingAddress(this.getBillingAddressTest())
             .build();
     }
+
     static getCustomerTest2() {
-        return new Customer.Builder().setEmail(customer.user2.email)
-            .setFirstName(customer.user2.firstName)
-            .setLastName(customer.user2.lastName)
-            .setPassword(customer.user2.password)
+        return new Customer.Builder().setEmail(customer[language].user2.email)
+            .setFirstName(customer[language].user2.firstName)
+            .setLastName(customer[language].user2.lastName)
+            .setPassword(customer[language].user2.password)
             .setShippingAddress(this.getShippingAddressTest())
             .setBillingAddress(this.getBillingAddressTest())
             .build();
@@ -76,22 +81,22 @@ export default class DataTest {
 
     static getShippingAddressTest() {
         return new Address.Builder()
-            .setFlat(customer.user1.shippingAddress.flat)
-            .setStreet(customer.user1.shippingAddress.street)
-            .setArea(customer.user1.shippingAddress.area)
-            .setCity(customer.user1.shippingAddress.city)
-            .setDistrict(customer.user1.shippingAddress.district)
-            .setPhoneNumber(customer.user1.shippingAddress.phoneNumber).build()
+            .setFlat(customer[language].user1.shippingAddress.flat)
+            .setStreet(customer[language].user1.shippingAddress.street)
+            .setArea(customer[language].user1.shippingAddress.area)
+            .setCity(customer[language].user1.shippingAddress.city)
+            .setDistrict(customer[language].user1.shippingAddress.district)
+            .setPhoneNumber(customer[language].user1.shippingAddress.phoneNumber).build()
     }
 
     static getBillingAddressTest() {
         return new Address.Builder()
-            .setFlat(customer.user1.billingAddress.flat)
-            .setStreet(customer.user1.billingAddress.street)
-            .setArea(customer.user1.billingAddress.area)
-            .setCity(customer.user1.billingAddress.city)
-            .setDistrict(customer.user1.billingAddress.district)
-            .setPhoneNumber(customer.user1.billingAddress.phoneNumber).build()
+            .setFlat(customer[language].user1.billingAddress.flat)
+            .setStreet(customer[language].user1.billingAddress.street)
+            .setArea(customer[language].user1.billingAddress.area)
+            .setCity(customer[language].user1.billingAddress.city)
+            .setDistrict(customer[language].user1.billingAddress.district)
+            .setPhoneNumber(customer[language].user1.billingAddress.phoneNumber).build()
     }
 
     static getBundleProductType(type) {
