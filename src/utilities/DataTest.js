@@ -5,14 +5,12 @@ import Address from "../entities/Address";
 import BundleProduct from "../entities/product/BundleProduct";
 import SimpleProduct from "../entities/product/SimpleProduct";
 import BundleItem from "../entities/product/BundleItem";
-
 const customerRawData = fs.readFileSync('src/data/customer.json', 'utf-8');
 const productRawData = fs.readFileSync('src/data/product.json', 'utf-8')
 const customer = JSON.parse(customerRawData);
 const product = JSON.parse(productRawData)
-let language = process.env.LANGUAGE
-export default class DataTest {
 
+export default class DataTest {
     static getLanguage() {
         return language
     }
