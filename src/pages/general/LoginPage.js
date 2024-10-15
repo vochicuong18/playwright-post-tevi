@@ -1,6 +1,7 @@
 import WaitUtility from "../../utilities/WaitUtility";
 import MyAccount from "../customer/MyAccount";
 import {test} from "@playwright/test";
+import ReportUtility from "../../utilities/ReportUtility";
 
 let waitUtility
 
@@ -24,6 +25,8 @@ class LoginPage {
             await this.txtEmail.clear()
             await this.txtEmail.fill(customer.getEmail())
             await this.txtPassword.fill(customer.getPassword())
+            await ReportUtility.logInfo(`Email: ${customer.getEmail()}`)
+            await ReportUtility.logInfo(`Password: ${customer.getPassword()}`)
             await this.btnLogin.click()
             await waitUtility.waitForURLEndWith("/customer/account/")
             await this.page.waitForLoadState()

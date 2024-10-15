@@ -1,6 +1,14 @@
 // @ts-check
 import {defineConfig, devices} from '@playwright/test';
 import os from "node:os";
+import dotenv from 'dotenv';
+import path from 'path';
+/**
+ * @see https://playwright.dev/docs/test-configuration
+ */
+
+// Read from ".env" file.
+dotenv.config({path: path.resolve(__dirname, '.env')});
 /**
  * @see https://playwright.dev/docs/test-configuration
  */

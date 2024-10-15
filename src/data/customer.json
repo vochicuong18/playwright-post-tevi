@@ -1,50 +1,100 @@
 {
-  "user1": {
-    "email": "cuong.company2@mailinator.com",
-    "firstName": "Cuong",
-    "lastName": "Vo",
-    "password": "Cuong@123123",
-    "shippingAddress": {
-      "flat": "205",
-      "street": "2000 Logan Rd",
-      "area": "Hong Kong Island",
-      "city": "Hong Kong SAR China",
-      "district": "Sheung Wan",
-      "phoneNumber": "0890939946"
+  "en": {
+    "user1": {
+      "email": "cuong.company2@mailinator.com",
+      "firstName": "Cuong",
+      "lastName": "Vo",
+      "password": "Cuong@123123",
+      "shippingAddress": {
+        "flat": "205",
+        "street": "2000 Logan Rd",
+        "area": "Hong Kong Island",
+        "city": "Hong Kong SAR China",
+        "district": "Sheung Wan",
+        "phoneNumber": "0890939946"
+      },
+      "billingAddress": {
+        "flat": "205",
+        "street": "2000 Logan Rd",
+        "area": "Hong Kong Island",
+        "city": "Hong Kong SAR China",
+        "district": "Sheung Wan",
+        "phoneNumber": "0890939946"
+      }
     },
-    "billingAddress": {
-      "flat": "205",
-      "street": "2000 Logan Rd",
-      "area": "Hong Kong Island",
-      "city": "Hong Kong SAR China",
-      "district": "Sheung Wan",
-      "phoneNumber": "0890939946"
+    "user2": {
+      "email": "automation.test2@mailinator.com",
+      "password": "Abcd@12345678",
+      "firstName": "AutoEn258",
+      "lastName": "QCAuto",
+      "billingAddress": {
+        "firstName": "auto",
+        "lastName": "test",
+        "street": "2000 Logan Rd",
+        "city": "White Hall",
+        "state": "Arkansas",
+        "zip": "71602",
+        "telephone": "6549873212",
+        "country": "United States"
+      },
+      "shippingAddress": {
+        "firstName": "auto",
+        "lastName": "test",
+        "street": "2000 Logan Rd",
+        "city": "White Hall",
+        "state": "Arkansas",
+        "zip": "71602",
+        "telephone": "6549873212",
+        "country": "Hong Kong SAR China"
+      }
     }
   },
-  "user2": {
-    "email": "automation.test2@mailinator.com",
-    "password": "Abcd@12345678",
-    "firstName": "AutoEn258",
-    "lastName": "QCAuto",
-    "billingAddress": {
-      "firstName": "auto",
-      "lastName": "test",
-      "street": "2000 Logan Rd",
-      "city": "White Hall",
-      "state": "Arkansas",
-      "zip": "71602",
-      "telephone": "6549873212",
-      "country": "United States"
+  "zh": {
+    "user1": {
+      "email": "auto.ricoh.zh@yopmail.com",
+      "password": "Abcdef@123456",
+      "firstName": "Auto",
+      "lastName": "QCzh",
+      "gender": "male",
+      "jobTitle": "Admin",
+      "companyName": "公司 merke",
+      "companyLegalName": "Auto Company Legal",
+      "companyEmail": "automation.company.zh@mailinator.com",
+      "streetAddress": "Qingniangou Rd",
+      "country": "中國香港特別行政區",
+      "state": "九龍",
+      "district": "九龍塘",
+      "city": "朝阳区",
+      "zip": "1111",
+      "telephone": "1237894562",
+      "billingAddress": {
+        "firstName": "Auto",
+        "lastName": "QCzh",
+        "street": "street1",
+        "state": "九龍",
+        "district": "九龍城",
+        "city": "朝阳区",
+        "phonePrefix": "84",
+        "telephone": "975430435",
+        "country": "中國香港特別行政區"
+      },
+      "shippingAddress": {
+        "firstName": "Auto",
+        "lastName": "QCzh",
+        "street": "street1",
+        "state": "九龍",
+        "district": "九龍城",
+        "city": "朝阳区",
+        "phonePrefix": "84",
+        "telephone": "975430435",
+        "country": "中國香港特別行政區"
+      }
     },
-    "shippingAddress": {
-      "firstName": "auto",
-      "lastName": "test",
-      "street": "2000 Logan Rd",
-      "city": "White Hall",
-      "state": "Arkansas",
-      "zip": "71602",
-      "telephone": "6549873212",
-      "country": "Hong Kong SAR China"
+    "user2": {
+      "email": "automation.test.zh2@mailinator.com",
+      "password": "Abcd@12345678",
+      "firstName": "AutoZH260",
+      "lastName": "QCAuto"
     }
   }
 }

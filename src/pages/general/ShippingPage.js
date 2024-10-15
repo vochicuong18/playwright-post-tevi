@@ -37,6 +37,8 @@ export default class ShippingPage {
     // }
 
     async selectShippingMethod(method) {
-        await this.shippingMethod(method).click()
+        await test.step(`Select ${method} shipping method`, async () => {
+            await this.shippingMethod(method).click()
+        })
     }
 }

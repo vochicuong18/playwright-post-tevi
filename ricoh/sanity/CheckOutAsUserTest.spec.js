@@ -6,6 +6,7 @@ import HeaderPage from "../../src/pages/general/HeaderPage";
 import {paymentMethod} from '../../src/entities/Payment'
 import {shippingMethod} from "../../src/entities/Shipping";
 import ReportUtility from "../../src/utilities/ReportUtility";
+import AssertUtility from "../../src/utilities/AssertUtility";
 
 let page, headerPage, loginPage, myAccountPage, productListPage, productDetailsPage, shoppingCartPage, shippingPage,
     checkoutPage, successPage, orderDetailsPage, customer, simpleProduct, bundleProduct, cod, subTotal, shippingFee,
@@ -23,10 +24,11 @@ test.beforeAll('Prepare data', async ({browser}) => {
 test('Checkout as user', async () => {
     await test.step('Login', async () => {
         await Navigate.navigateToHomePage(page)
-        await headerPage.switchLanguage('English')
+        await headerPage.acceptCookie()
+        await headerPage.switchLanguage(DataTest.getLanguage())
         loginPage = await headerPage.navigateToLogin()
+        await AssertUtility.assertEquals("Customer Login", await page.title(), "Check page title")
         myAccountPage = await loginPage.loginViaPassword(customer)
-        await ReportUtility.logInfo(`Login with ${customer.getEmail()}`)
         await myAccountPage.checkContactInfo(customer)
     })
 
@@ -52,7 +54,7 @@ test('Checkout as user', async () => {
     await test.step('Check shopping cart', async () => {
         await headerPage.viewMiniCart()
         shoppingCartPage = await headerPage.viewShoppingCart()
-        await ReportUtility.attachScreenshot(page, 'Check shopping cart')
+        await ReportUtility.attachScreenshot(page, 'attachment shopping cart image')
         await shoppingCartPage.checkProduct(simpleProduct)
         await shoppingCartPage.checkProduct(bundleProduct)
         await shoppingCartPage.checkSubTotal(subTotal)
@@ -61,8 +63,8 @@ test('Checkout as user', async () => {
 
     await test.step('Shipping', async () => {
         shippingPage = await shoppingCartPage.goToShippingPage()
-        await shippingPage.selectShippingMethod(shippingMethod.bestWay.code)
         await ReportUtility.attachImage("Attach image check", "hda3.png")
+        await shippingPage.selectShippingMethod(shippingMethod.bestWay.code)
     })
 
     await test.step('Payment', async () => {

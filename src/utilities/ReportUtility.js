@@ -1,4 +1,5 @@
 import {ContentType, Status} from "allure-js-commons";
+import {test} from "@playwright/test";
 
 const allure = require("allure-js-commons");
 
@@ -9,8 +10,11 @@ const allure = require("allure-js-commons");
 export default class ReportUtility {
 
     static async logInfo(description) {
-        await allure.attachment(description, "", ContentType.TEXT)
-        // await allure.attachment("Log info", description, ContentType.TEXT)
+        await allure.step(`Log info: ${description}`, async () => {
+            // await allure.attachment(description, "", ContentType.TEXT)
+            // // await allure.attachment("Log info", description, ContentType.TEXT)
+        })
+
     }
 
     static async logPassed(description) {
@@ -30,14 +34,19 @@ export default class ReportUtility {
     }
 
     static async attachScreenshot(page, description) {
-        await allure.attachment(
-            description,
-            await page.screenshot({fullPage: true}),
-            {contentType: "image/png"})
+        await test.step("Attach screenshot", async () => {
+            await allure.attachment(
+                description,
+                await page.screenshot({fullPage: true}),
+                {contentType: "image/png"})
+        })
+
     }
 
     static async attachImage(description, path) {
-        await allure.attachmentPath(description, path, {contentType: ContentType.PNG})
+        await test.step('Attach image', async () => {
+            await allure.attachmentPath(description, path, {contentType: ContentType.PNG})
+        })
     }
 
     static async attachFile(description, contentType, path) {
