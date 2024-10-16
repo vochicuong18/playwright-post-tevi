@@ -1,7 +1,10 @@
 export const paymentMethod = {
     cashOnDelivery: {
         code: "cashondelivery",
-        string: "Cash On Delivery"
+        string: {
+            en: 'Cash On Delivery',
+            zh: 'Cash On Delivery'
+        }
     },
     creditCard: {
         code: "creditcard",

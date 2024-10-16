@@ -13,16 +13,17 @@ dotenv.config({path: path.resolve(__dirname, '.env')});
  * @see https://playwright.dev/docs/test-configuration
  */
 
-
 module.exports = defineConfig({
+  fullyParallel: true,
   timeout: 0,
   testDir: './ricoh/sanity',
-  workers: 1,
+  workers: 2,
   reporter: [
     [
       "allure-playwright",
       {
-        detail: false,
+        detail: true,
+        history: true,
         environmentInfo: {
           OS: os.platform(),
           OSVersion: os.version(),
@@ -34,7 +35,7 @@ module.exports = defineConfig({
   ],
   use: {
     actionTimeout: 30000,
-    baseURL: 'https://ricoh.cloud.bluecomvn.com/',
+    baseURL: process.env.URL,
     headless: false,
     video: 'retain-on-failure',
     screenshot: {mode: 'only-on-failure', fullPage: true},
@@ -45,14 +46,14 @@ module.exports = defineConfig({
       name: 'English',
       use: {
         language: process.env.ENGLISH,
-        ...devices['Desktop Chrome'], deviceScaleFactor: undefined, channel: 'chrome', viewport: null
+        ...devices[process.env.DEVICE], deviceScaleFactor: undefined, channel: process.env.BROWSER, viewport: null
       }
     },
     {
       name: 'Chinese',
       use: {
         language: process.env.CHINESE,
-        ...devices['Desktop Chrome'], deviceScaleFactor: undefined, channel: 'chrome', viewport: null
+        ...devices[process.env.DEVICE], deviceScaleFactor: undefined, channel: process.env.BROWSER, viewport: null
       },
     }
   ],

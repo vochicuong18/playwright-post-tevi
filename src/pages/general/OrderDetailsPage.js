@@ -71,7 +71,7 @@ export default class OrderDetailsPage {
     }
 
     async checkBillingAddress(customer) {
-        await test.step("Check shipping address", async () => {
+        await test.step("Check billing address", async () => {
             let gui = await this.billingAddress.textContent()
             gui = StringUtility.removeLines(StringUtility.removeRedundantCharacter(gui, "  ")).trim()
             let data = this.formatAddress(customer, 'billing')

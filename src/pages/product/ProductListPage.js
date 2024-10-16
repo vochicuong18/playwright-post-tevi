@@ -17,6 +17,5 @@ export default class ProductListPage {
             await this.productItem(product.getURL()).hover()
             await this.productItem(product.getURL()).click()
         })
-        return new ProductDetailsPage(this.page)
     }
 }

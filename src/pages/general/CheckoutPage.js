@@ -19,7 +19,7 @@ export default class CheckoutPage {
             return page.locator(`//input[@id='${paymentMethod}']`)
         }
         this.cbCheckoutAgreement = page.locator('div.payment-method._active div.checkout-agreements')
-        this.btnCheckout = page.getByRole('button', {name: 'Place Order'})
+        this.btnCheckout = page.locator("div.payment-method._active button[data-bind*='placeOrder']")
         this.subTotal = page.locator('tr.totals.sub span.price')
         this.shippingFee = page.locator('tr.totals.shipping.excl span.price')
         this.grandTotal = page.locator('tr.grand.totals span.price')
@@ -96,7 +96,6 @@ export default class CheckoutPage {
             await this.page.waitForURL("**/checkout/onepage/success/")
             await this.page.waitForLoadState()
         })
-        return new SuccessPage(this.page)
     }
 
     formatAddress(customer, addressType) {

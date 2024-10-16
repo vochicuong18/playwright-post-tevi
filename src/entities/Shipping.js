@@ -1,12 +1,15 @@
 export const shippingMethod = {
     bestWay: {
         code: "tablerate_bestway",
-        string: "Standard Shipping - Standard Shipping",
+        string: {
+            en: "Standard Shipping - Standard Shipping",
+            zh: "標準配送 - 標準配送"
+        },
         fee: 100
     },
     free: {
         code: "creditcard",
-        string: "Credit Card",
+        string: "信用卡",
         fee: 0
     },
 };

@@ -25,8 +25,7 @@ test.afterAll('Clean up', async () => {
 test('login with customer1 test', async () => {
     await test.step('home page title', async () => {
         await Navigate.navigateToHomePage(page)
-        await headerPage.acceptCookie()
-        await headerPage.switchLanguage(DataTest.getLanguage());
+        await headerPage.switchLanguage('English');
         title = await headerPage.getTitle();
     })
     await test.step('login', async () => {
@@ -42,7 +41,7 @@ test('login with customer1 test', async () => {
 test('login with customer2 test', async () => {
     await test.step('home page title', async () => {
         await Navigate.navigateToHomePage(page)
-        await headerPage.switchLanguage(DataTest.getLanguage());
+        await headerPage.switchLanguage('English');
         title = await headerPage.getTitle();
         await expect.soft(title).toBe("Home Page1")
     })

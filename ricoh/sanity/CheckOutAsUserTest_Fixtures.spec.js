@@ -1,5 +1,21 @@
 import {test} from "../../src/utilities/Fixtures";
-test('Checkout as user', async ({headerPage, loginPage, myAccountPage, productListPage, productDetailsPage, shoppingCartPage, shippingPage, checkoutPage, successPage, orderDetailsPage ,customer, simpleProduct, bundleProduct, cod, bestWay, calculated:{subTotal, shippingFee, grandTotal} }) => {
+test.beforeAll('before all', async () => {
+    console.log("Check befor all")
+})
+
+test.afterAll('after all', async () => {
+    console.log("Check after all")
+})
+
+test.beforeEach('beforeEach ', async () => {
+    console.log("Check beforeEach ")
+})
+
+test.afterEach('afterEach', async () => {
+    console.log("Check afterEach ")
+})
+
+test('Checkout as user', async ({language, headerPage, loginPage, myAccountPage, productListPage, productDetailsPage, shoppingCartPage, shippingPage, checkoutPage, successPage, orderDetailsPage ,customer, simpleProduct, bundleProduct, cod, bestWay, calculated:{subTotal, shippingFee, grandTotal} }) => {
 
     await test.step('Login', async () => {
         await headerPage.navigateToLogin();
@@ -60,7 +76,7 @@ test('Checkout as user', async ({headerPage, loginPage, myAccountPage, productLi
         await orderDetailsPage.checkGrandTotal(grandTotal)
         await orderDetailsPage.checkShippingAddress(customer)
         await orderDetailsPage.checkBillingAddress(customer)
-        await orderDetailsPage.checkShippingMethod(bestWay.string)
-        await orderDetailsPage.checkPaymentMethod(cod.string)
+        await orderDetailsPage.checkShippingMethod(bestWay.string[language])
+        await orderDetailsPage.checkPaymentMethod(cod.string[language])
     })
 })

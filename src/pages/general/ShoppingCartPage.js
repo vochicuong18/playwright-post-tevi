@@ -23,7 +23,7 @@ export default class ShoppingCartPage {
             return page.locator(`//a[text()='${productName}']//ancestor::tr//td[@class='col subtotal']//span[@class='price']`)
         }
         this.loadingMask = page.locator('div.cart-totals div.loader')
-        this.btnCheckout = page.getByRole('button', {name: 'Proceed to Checkout'})
+        this.btnCheckout = page.locator("button[data-role='proceed-to-checkout']")
     }
 
     async goToShippingPage() {
@@ -32,7 +32,6 @@ export default class ShoppingCartPage {
             await this.btnCheckout.click()
             await this.page.waitForLoadState("domcontentloaded")
         })
-        return new ShippingPage(this.page)
     }
 
     async checkProduct(product) {

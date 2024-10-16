@@ -16,7 +16,5 @@ export default class SuccessPage {
             await this.page.waitForURL("**/order/view/order_id/**")
             await this.page.waitForLoadState()
         })
-        return new OrderDetailsPage(this.page)
     }
-
 }

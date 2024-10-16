@@ -28,8 +28,6 @@ export default class ShippingPage {
             await waitUtility.waitForNotPresentOf(this.summaryLoadingMask)
             await this.page.waitForLoadState('domcontentloaded')
         })
-
-        return new CheckoutPage(this.page)
     }
 
     // async selectShippingAddress(address) {
@@ -37,8 +35,6 @@ export default class ShippingPage {
     // }
 
     async selectShippingMethod(method) {
-        await test.step(`Select ${method} shipping method`, async () => {
-            await this.shippingMethod(method).click()
-        })
+        await this.shippingMethod(method).click()
     }
 }

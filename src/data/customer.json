@@ -68,26 +68,20 @@
       "zip": "1111",
       "telephone": "1237894562",
       "billingAddress": {
-        "firstName": "Auto",
-        "lastName": "QCzh",
-        "street": "street1",
-        "state": "九龍",
+        "flat": "street1",
+        "street": "朝阳区",
+        "area": "九龍",
+        "city": "中國香港特別行政區",
         "district": "九龍城",
-        "city": "朝阳区",
-        "phonePrefix": "84",
-        "telephone": "975430435",
-        "country": "中國香港特別行政區"
+        "phoneNumber": "975430435"
       },
       "shippingAddress": {
-        "firstName": "Auto",
-        "lastName": "QCzh",
-        "street": "street1",
-        "state": "九龍",
+        "flat": "street1",
+        "street": "朝阳区",
+        "area": "九龍",
+        "city": "中國香港特別行政區",
         "district": "九龍城",
-        "city": "朝阳区",
-        "phonePrefix": "84",
-        "telephone": "975430435",
-        "country": "中國香港特別行政區"
+        "phoneNumber": "975430435"
       }
     },
     "user2": {

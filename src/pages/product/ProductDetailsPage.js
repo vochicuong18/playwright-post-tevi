@@ -14,7 +14,7 @@ export default class ProductDetailsPage {
         waitUtility = new WaitUtility(this.page);
         this.productQty = page.locator('input#qty')
         this.btnAddToCart = page.locator('button#product-addtocart-button')
-        this.btnCustomize = page.getByRole('button', {name: 'Customize and Add to Cart'})
+        this.btnCustomize = page.locator('#bundle-slide')
         this.cartCountLoading = page.locator('span.counter.qty')
         this.successMessage = page.locator('div.message-success.success.message')
         this.cbBundleItem = (bundleItemName) => {

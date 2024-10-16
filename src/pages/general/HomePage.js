@@ -1,5 +1,6 @@
 import WaitUtility from "../../utilities/WaitUtility";
 import LoginPage from "./LoginPage"
+import {test} from "@playwright/test";
 
 let waitUtility
 
@@ -7,7 +8,7 @@ export default class HomePage {
     /**
      * @param {import('@playwright/test').Page} page
      */
-    constructor (page) {
+    constructor(page) {
         this.page = page;
         waitUtility = new WaitUtility(this.page);
         this.lbLanguageEN = page.locator('css=#switcher-language-trigger strong.view-en_hk');
@@ -16,11 +17,11 @@ export default class HomePage {
         this.btnLogin = page.locator('.panel.header li.authorization-link>a');
     }
 
-    async getTitle(){
+    async getTitle() {
         return await this.page.title()
     }
 
-    async getURL(){
+    async getURL() {
         return await this.page.url()
 
     }
@@ -30,17 +31,20 @@ export default class HomePage {
         if (language == 'English') {
             await this.lbLanguageZH.click();
             await this.btnSwitchLanguage.click();
-         } else {
+        } else {
             await this.lbLanguageEN.click();
             await this.btnSwitchLanguage.click();
         }
-       await waitUtility.sleep(2);
+        await waitUtility.sleep(2);
     }
 
-    async navigateToLogin(){
-        await this.btnLogin.click()
-        await this.page.waitForURL('**/login/**');
-        await this.page.waitForLoadState()
-        return new LoginPage(this.page)
+    async navigateToLogin() {
+        await test.step(`Navigate to login page`, async () => {
+            await this.btnLogin.click()
+            await this.page.waitForURL('**/login/**');
+            await this.page.waitForLoadState()
+        })
+
+
     }
 }

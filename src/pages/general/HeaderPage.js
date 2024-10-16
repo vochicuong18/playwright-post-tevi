@@ -28,7 +28,7 @@ export default class HeaderPage {
         this.body = page.locator('body#html-body')
         this.lblWelcomeNotLogged = page.locator('div.panel.header span.not-logged-in')
         this.expandAccountMenu = page.locator('div.header button[data-action="customer-menu-toggle"]')
-        this.lnkSignOut = page.getByRole("link", {name: "Sign Out"})
+        this.lnkSignOut = page.locator("//div[@aria-hidden='false']//li[@data-label='or']//a")
     }
 
     async getTitle() {
@@ -48,8 +48,14 @@ export default class HeaderPage {
 
     async switchLanguage(language) {
         await test.step(`Switch to ${language}`, async () => {
-            let currentLanguage = await this.lblLanguage.textContent()
-            if (currentLanguage !== language) {
+            const languages = {
+                en: 'English',
+                zh: 'Traditional Chinese'
+            };
+            const expectLanguage = languages[language];
+            let currentLanguage = (await this.lblLanguage.textContent()).trim()
+
+            if (currentLanguage !== expectLanguage) {
                 let btnLanguage = (language === "en") ? this.lbLanguageZH : this.lbLanguageEN
                 await btnLanguage.click()
                 await this.btnSwitchLanguage.click()
@@ -63,7 +69,6 @@ export default class HeaderPage {
             await this.page.waitForURL('**/login/**');
             await this.page.waitForLoadState('domcontentloaded')
         })
-        return new LoginPage(this.page)
     }
 
     async viewMiniCart() {
@@ -83,7 +88,6 @@ export default class HeaderPage {
             await waitUtility.waitForPresentOf(this.loadingMask)
             await waitUtility.waitForNotPresentOf(this.loadingMask)
         })
-        return new ShoppingCartPage(this.page)
     }
 
     async searchProduct(product) {
@@ -91,7 +95,6 @@ export default class HeaderPage {
             await this.txtSearch.fill(product.getName())
             await this.page.keyboard.press('Enter')
         })
-        return new ProductListPage(this.page)
     }
 
     async isCartEmpty() {
@@ -109,4 +112,5 @@ export default class HeaderPage {
             await waitUtility.waitForURLChange(currentUrl)
         })
     }
+
 }

@@ -52,7 +52,7 @@
     }
   },
   "zh": {
-    "simple_product1": {
+    "simple_product": {
       "name": "Bolo Sport Watch",
       "sku": "24-WG01",
       "price": 49,
@@ -60,7 +60,7 @@
       "category": "Products->Printer",
       "url": "bolo-sport-watch.html"
     },
-    "bundle_product1": {
+    "bundle_product": {
       "name": "Sprite Yoga Companion Kit",
       "sku": "24-WG080",
       "price": 44,
