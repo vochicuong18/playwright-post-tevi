@@ -1,10 +1,10 @@
 import {test} from "../../src/utilities/Fixtures";
-1test('Checkout as user', async ({language, headerPage, loginPage, myAccountPage, productListPage, productDetailsPage, shoppingCartPage, shippingPage, checkoutPage, successPage, orderDetailsPage, customer1, simpleProduct, bundleProduct, cod, bestWay, calculated:{subTotal, shippingFee, grandTotal} }) => {
+test('Checkout as user', async ({language, headerPage, loginPage, myAccountPage, productListPage, productDetailsPage, shoppingCartPage, shippingPage, checkoutPage, successPage, orderDetailsPage, customer1, simpleProduct, bundleProduct, cod, bestWay, calculated:{subTotal, shippingFee, grandTotal} }) => {
 
     await test.step('Login', async () => {
         await headerPage.navigateToLogin();
-        await loginPage.loginViaPassword(customer)
-        await myAccountPage.checkContactInfo(customer)
+        await loginPage.loginViaPassword(customer1)
+        await myAccountPage.checkContactInfo(customer1)
     })
 
     await test.step('Check cart empty', async () => {

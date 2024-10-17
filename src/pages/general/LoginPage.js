@@ -20,7 +20,6 @@ class LoginPage {
 
     async loginViaPassword(customer){
         await test.step(`Login with customer ${customer.getEmail()}`, async () => {
-            console.log(language)
             await this.chkLoginViaPassword.check()
             await this.txtEmail.clear()
             await this.txtEmail.fill(customer.getEmail())

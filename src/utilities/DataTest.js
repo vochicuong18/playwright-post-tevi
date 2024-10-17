@@ -9,11 +9,14 @@ import Customer from "../entities/Customer";
 import Address from "../entities/Address";
 import {paymentMethod} from "../entities/Payment";
 import {shippingMethod} from "../entities/Shipping";
+import Card from "../entities/product/Card";
 
 const customerRawData = fs.readFileSync('src/data/customer.json', 'utf-8');
 const productRawData = fs.readFileSync('src/data/product.json', 'utf-8')
+const cardRawData = fs.readFileSync('src/data/card.json', 'utf-8')
 const product = JSON.parse(productRawData)
 const customer = JSON.parse(customerRawData);
+const card = JSON.parse(cardRawData)
 
 export const test = baseTest.extend({
     simpleProduct: async ({language}, use) => {
@@ -83,6 +86,24 @@ export const test = baseTest.extend({
             .setPassword(customer[language].user2.password)
             .setShippingAddress(getShippingAddressTest(language))
             .setBillingAddress(getBillingAddressTest(language))
+            .build())
+    },
+
+    visa: async ({}, use) => {
+        await use(new Card.Builder().setCardName(card[Card.CardType.VISA].name)
+            .setCardNumber(card[Card.CardType.VISA].number)
+            .setExpireMonth(card[Card.CardType.VISA].month)
+            .setExpireYear(card[Card.CardType.VISA].year)
+            .setCode(card[Card.CardType.VISA].code)
+            .build())
+    },
+
+    masterCard: async ({}, use) => {
+        await use(new Card.Builder().setCardName(card[Card.CardType.MASTERCARD].name)
+            .setCardNumber(card[Card.CardType.MASTERCARD].number)
+            .setExpireMonth(card[Card.CardType.MASTERCARD].month)
+            .setExpireYear(card[Card.CardType.MASTERCARD].year)
+            .setCode(card[Card.CardType.MASTERCARD].code)
             .build())
     },
 

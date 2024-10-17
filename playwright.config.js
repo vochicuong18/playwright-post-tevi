@@ -49,13 +49,13 @@ module.exports = defineConfig({
         ...devices[process.env.DEVICE], deviceScaleFactor: undefined, channel: process.env.BROWSER, viewport: null
       }
     },
-    // {
-    //   name: 'Chinese',
-    //   use: {
-    //     language: process.env.CHINESE,
-    //     ...devices[process.env.DEVICE], deviceScaleFactor: undefined, channel: process.env.BROWSER, viewport: null
-    //   },
-    // }
+    {
+      name: 'Chinese',
+      use: {
+        language: process.env.CHINESE,
+        ...devices[process.env.DEVICE], deviceScaleFactor: undefined, channel: process.env.BROWSER, viewport: null
+      },
+    }
   ],
 });
 

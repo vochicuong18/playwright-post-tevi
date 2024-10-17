@@ -38,59 +38,45 @@ export default class OrderDetailsPage {
     }
 
     async checkSubtotal(subtotal) {
-        await test.step(`Check order subtotal`, async () => {
-            let gui = await this.subTotal.textContent()
-            let data = await PriceUtility.convertPriceToString(subtotal)
-            await AssertUtility.assertEquals(gui, data, "Check subtotal")
-        })
+        let gui = await this.subTotal.textContent()
+        let data = await PriceUtility.convertPriceToString(subtotal)
+        await AssertUtility.assertEquals(gui, data, "Check subtotal")
     }
 
     async checkShippingFee(shippingFee) {
-        await test.step(`Check order shipping fee`, async () => {
-            let gui = await this.shippingFee.textContent()
-            let data = await PriceUtility.convertPriceToString(shippingFee)
-            await AssertUtility.assertEquals(gui, data, "Check order shipping fee")
-        })
+        let gui = await this.shippingFee.textContent()
+        let data = await PriceUtility.convertPriceToString(shippingFee)
+        await AssertUtility.assertEquals(gui, data, "Check order shipping fee")
     }
 
     async checkGrandTotal(grandTotal) {
-        await test.step(`Check order grand total`, async () => {
-            let gui = await this.grandTotal.textContent()
-            let data = await PriceUtility.convertPriceToString(grandTotal)
-            await AssertUtility.assertEquals(gui, data, "Check order grand total")
-        })
+        let gui = await this.grandTotal.textContent()
+        let data = await PriceUtility.convertPriceToString(grandTotal)
+        await AssertUtility.assertEquals(gui, data, "Check order grand total")
     }
 
     async checkShippingAddress(customer) {
-        await test.step("Check shipping address", async () => {
-            let gui = await this.shippingAddress.textContent()
-            gui = StringUtility.removeLines(StringUtility.removeRedundantCharacter(gui, "  ")).trim()
-            let data = this.formatAddress(customer, 'shipping')
-            await AssertUtility.assertEquals(gui, data, "Check shipping address")
-        })
+        let gui = await this.shippingAddress.textContent()
+        gui = StringUtility.removeLines(StringUtility.removeRedundantCharacter(gui, "  ")).trim()
+        let data = this.formatAddress(customer, 'shipping')
+        await AssertUtility.assertEquals(gui, data, "Check shipping address")
     }
 
     async checkBillingAddress(customer) {
-        await test.step("Check billing address", async () => {
-            let gui = await this.billingAddress.textContent()
-            gui = StringUtility.removeLines(StringUtility.removeRedundantCharacter(gui, "  ")).trim()
-            let data = this.formatAddress(customer, 'billing')
-            await AssertUtility.assertEquals(gui, data, "Check billing address")
-        })
+        let gui = await this.billingAddress.textContent()
+        gui = StringUtility.removeLines(StringUtility.removeRedundantCharacter(gui, "  ")).trim()
+        let data = this.formatAddress(customer, 'billing')
+        await AssertUtility.assertEquals(gui, data, "Check billing address")
     }
 
     async checkShippingMethod(shippingMethod) {
-        await test.step(`Check ${shippingMethod} shipping method`, async () => {
-            let gui = await this.shippingMethod.textContent()
-            await AssertUtility.assertEquals(gui.trim(), shippingMethod, "Check shipping method")
-        })
+        let gui = await this.shippingMethod.textContent()
+        await AssertUtility.assertEquals(gui.trim(), shippingMethod, "Check shipping method")
     }
 
     async checkPaymentMethod(paymentMethod) {
-        await test.step(`Check ${paymentMethod} payment method`, async () => {
-            let gui = await this.paymentMethod.textContent()
-            await AssertUtility.assertEquals(gui.trim(), paymentMethod, "Check payment method")
-        })
+        let gui = await this.paymentMethod.textContent()
+        await AssertUtility.assertEquals(gui.trim(), paymentMethod, "Check payment method")
     }
 
     formatAddress(customer, addressType) {

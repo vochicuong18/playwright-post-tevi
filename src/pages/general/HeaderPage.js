@@ -64,7 +64,6 @@ export default class HeaderPage {
     }
 
     async navigateToLogin() {
-        console.log(await this.page.evaluate(() => navigator.language))
         await test.step(`Navigate to login page`, async () => {
             await this.btnLogin.click()
             await this.page.waitForURL('**/login/**');

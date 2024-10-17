@@ -4,21 +4,14 @@
     "number":"4335900000140045",
     "month":"07",
     "year":"2030",
-    "cid":"123",
+    "code":"123",
     "3dpassword": "password"
-  },
-  "American":{
-    "name":"test",
-    "number":"378282246310005",
-    "month":"05",
-    "year":"2030",
-    "cid":"7373"
   },
   "MasterCard":{
     "name":"testing card",
     "number":"5422882800700007",
     "month":"07",
     "year":"2030",
-    "cid":"123"
+    "code":"123"
   }
 }

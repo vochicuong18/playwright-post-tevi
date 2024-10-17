@@ -44,19 +44,15 @@ export default class ShoppingCartPage {
     }
 
     async checkSubTotal(subTotal) {
-        await test.step(`Check cart subtotal`, async () => {
-            let data = await PriceUtility.convertPriceToString(subTotal)
-            let gui = await this.subTotal.textContent()
-            await AssertUtility.assertEquals(gui, data, "Check subtotal")
-        })
+        let data = await PriceUtility.convertPriceToString(subTotal)
+        let gui = await this.subTotal.textContent()
+        await AssertUtility.assertEquals(gui, data, "Check subtotal")
     }
 
     async checkGrandTotal(grandTotal) {
-        await test.step(`Check cart grand total`, async () => {
-            let data = await PriceUtility.convertPriceToString(grandTotal)
-            let gui = await this.grandTotal.textContent()
-            await AssertUtility.assertEquals(gui, data, "Check grand total")
-        })
+        let data = await PriceUtility.convertPriceToString(grandTotal)
+        let gui = await this.grandTotal.textContent()
+        await AssertUtility.assertEquals(gui, data, "Check grand total")
     }
 
     async empty() {
