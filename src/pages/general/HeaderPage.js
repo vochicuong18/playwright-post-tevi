@@ -28,7 +28,7 @@ export default class HeaderPage {
         this.body = page.locator('body#html-body')
         this.lblWelcomeNotLogged = page.locator('div.panel.header span.not-logged-in')
         this.expandAccountMenu = page.locator('div.header button[data-action="customer-menu-toggle"]')
-        this.lnkSignOut = page.locator("//div[@aria-hidden='false']//li[@data-label='or']//a")
+        this.lnkSignOut = page.locator("div.panel.header li.customer-welcome li.link.authorization-link")
     }
 
     async getTitle() {
@@ -64,6 +64,7 @@ export default class HeaderPage {
     }
 
     async navigateToLogin() {
+        console.log(await this.page.evaluate(() => navigator.language))
         await test.step(`Navigate to login page`, async () => {
             await this.btnLogin.click()
             await this.page.waitForURL('**/login/**');

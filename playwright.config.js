@@ -14,7 +14,7 @@ dotenv.config({path: path.resolve(__dirname, '.env')});
  */
 
 module.exports = defineConfig({
-  fullyParallel: true,
+  fullyParallel: false,
   timeout: 0,
   testDir: './ricoh/sanity',
   workers: 2,
@@ -22,7 +22,7 @@ module.exports = defineConfig({
     [
       "allure-playwright",
       {
-        detail: true,
+        detail: false,
         history: true,
         environmentInfo: {
           OS: os.platform(),
@@ -49,13 +49,13 @@ module.exports = defineConfig({
         ...devices[process.env.DEVICE], deviceScaleFactor: undefined, channel: process.env.BROWSER, viewport: null
       }
     },
-    {
-      name: 'Chinese',
-      use: {
-        language: process.env.CHINESE,
-        ...devices[process.env.DEVICE], deviceScaleFactor: undefined, channel: process.env.BROWSER, viewport: null
-      },
-    }
+    // {
+    //   name: 'Chinese',
+    //   use: {
+    //     language: process.env.CHINESE,
+    //     ...devices[process.env.DEVICE], deviceScaleFactor: undefined, channel: process.env.BROWSER, viewport: null
+    //   },
+    // }
   ],
 });
 

@@ -81,7 +81,6 @@ export default class CheckoutPage {
             await waitUtility.waitForNotPresentOf(this.loadingMask)
             await waitUtility.waitForNotPresentOf(this.summaryLoadingMask)
         })
-
     }
 
     async agreeTerm() {

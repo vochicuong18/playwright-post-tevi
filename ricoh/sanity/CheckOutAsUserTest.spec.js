@@ -1,21 +1,5 @@
 import {test} from "../../src/utilities/Fixtures";
-test.beforeAll('before all', async () => {
-    console.log("Check befor all")
-})
-
-test.afterAll('after all', async () => {
-    console.log("Check after all")
-})
-
-test.beforeEach('beforeEach ', async () => {
-    console.log("Check beforeEach ")
-})
-
-test.afterEach('afterEach', async () => {
-    console.log("Check afterEach ")
-})
-
-test('Checkout as user', async ({language, headerPage, loginPage, myAccountPage, productListPage, productDetailsPage, shoppingCartPage, shippingPage, checkoutPage, successPage, orderDetailsPage ,customer, simpleProduct, bundleProduct, cod, bestWay, calculated:{subTotal, shippingFee, grandTotal} }) => {
+1test('Checkout as user', async ({language, headerPage, loginPage, myAccountPage, productListPage, productDetailsPage, shoppingCartPage, shippingPage, checkoutPage, successPage, orderDetailsPage, customer1, simpleProduct, bundleProduct, cod, bestWay, calculated:{subTotal, shippingFee, grandTotal} }) => {
 
     await test.step('Login', async () => {
         await headerPage.navigateToLogin();
@@ -60,8 +44,8 @@ test('Checkout as user', async ({language, headerPage, loginPage, myAccountPage,
         await checkoutPage.checkSubTotal(subTotal)
         await checkoutPage.checkShippingFree(shippingFee)
         await checkoutPage.checkGrandTotal(grandTotal)
-        await checkoutPage.checkShippingAddress(customer)
-        await checkoutPage.checkBillingAddress(customer)
+        await checkoutPage.checkShippingAddress(customer1)
+        await checkoutPage.checkBillingAddress(customer1)
         await checkoutPage.selectPaymentMethod(cod.code)
         await checkoutPage.agreeTerm()
         await checkoutPage.placeOrder()
@@ -74,8 +58,8 @@ test('Checkout as user', async ({language, headerPage, loginPage, myAccountPage,
         await orderDetailsPage.checkSubtotal(subTotal)
         await orderDetailsPage.checkShippingFee(shippingFee)
         await orderDetailsPage.checkGrandTotal(grandTotal)
-        await orderDetailsPage.checkShippingAddress(customer)
-        await orderDetailsPage.checkBillingAddress(customer)
+        await orderDetailsPage.checkShippingAddress(customer1)
+        await orderDetailsPage.checkBillingAddress(customer1)
         await orderDetailsPage.checkShippingMethod(bestWay.string[language])
         await orderDetailsPage.checkPaymentMethod(cod.string[language])
     })
