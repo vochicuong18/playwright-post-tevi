@@ -1,5 +1,4 @@
 import PriceUtility from "../../utilities/PriceUtility";
-import {expect} from "../../utilities/Fixtures";
 import StringUtility from "../../utilities/StringUtility";
 import {test} from "@playwright/test";
 import AssertUtility from "../../utilities/AssertUtility";

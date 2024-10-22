@@ -16,15 +16,13 @@ const allure = require("allure-js-commons");
 export const test = baseTest.extend({
     //Fixtures marked as "option: true" will get a value specified in the config, or fallback to the default value.
     language: ['English', {option: true}],
-    page: async ({browser, language}, use) => {
-        let page = await browser.newPage();
+    page: async ({browser, page, language}, use) => {
         let headerPage = new HeaderPage(page)
         await allure.tag(`${browser.browserType().name()} ${browser.version()}`)
         await NavigateUtility.navigateToHomePage(page)
         await headerPage.acceptCookie()
         await headerPage.switchLanguage(language);
         await use(page);
-        await page.close()
     },
 
     headerPage: async ({page}, use) => {
