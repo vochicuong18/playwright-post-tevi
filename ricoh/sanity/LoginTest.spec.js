@@ -3,10 +3,8 @@ import AssertUtility from "../../src/utilities/AssertUtility";
 
 test('login with customer1 test', async ({headerPage, loginPage, myAccountPage, customer1, visa}) => {
     await test.step('login', async () => {
-        console.log(visa)
         await headerPage.navigateToLogin();
         await loginPage.loginViaPassword(customer1)
-        await AssertUtility.assertTrue("test", "test1", "check message")
         await myAccountPage.checkContactInfo(customer1)
         await headerPage.signOut()
     })
