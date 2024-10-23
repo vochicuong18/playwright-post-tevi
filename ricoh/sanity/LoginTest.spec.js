@@ -1,7 +1,6 @@
 import {test} from "../../src/utilities/Fixtures";
-import AssertUtility from "../../src/utilities/AssertUtility";
 
-test('login with customer1 test', async ({headerPage, loginPage, myAccountPage, customer1, visa}) => {
+test('login with customer1 test', async ({browser, headerPage, loginPage, myAccountPage, customer1, language }) => {
     await test.step('login', async () => {
         await headerPage.navigateToLogin();
         await loginPage.loginViaPassword(customer1)
@@ -10,7 +9,7 @@ test('login with customer1 test', async ({headerPage, loginPage, myAccountPage, 
     })
 })
 
-test('login with customer2 test', async ({headerPage, loginPage, myAccountPage, customer2}) => {
+test('login with customer2 test', async ({browser, headerPage, loginPage, myAccountPage, customer2}) => {
     await test.step('login', async () => {
         await headerPage.navigateToLogin();
         await loginPage.loginViaPassword(customer2)
