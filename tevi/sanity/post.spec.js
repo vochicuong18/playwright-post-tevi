@@ -14,10 +14,7 @@ test('post tevi', async ({
                          statusPost,
                          filePath,
                      }) => {
-    console.log("-------audience1: ", audience)
     await homePage.goToMyAccountPage()
-    console.log("-------audience2: ", audience)
-
     await myAccount.createNewPost()
     await myAccount.selectAudience(audience, star)
     await myAccount.postSetting(allowReplying, canComment, allowRepWithLink, pinPost)
@@ -25,5 +22,4 @@ test('post tevi', async ({
     await myAccount.fillStatus(statusPost)
     await myAccount.attachFile(filePath)
     await myAccount.submitPost()
-    console.log("-------audience3: ", audience)
 })

@@ -1,17 +1,12 @@
 pipeline {
     agent any
+    cron 'H/5 * * * *'
     environment {
         LOCAL_DATA_PATH = 'D:/tevi'
         CURRENT_DATE = new Date().format('ddMMyyyy')
         CRON_FILE_PATH = "${env.LOCAL_DATA_PATH}/${env.CURRENT_DATE}/cron.json"
     }
     stages {
-         stage('Clean and Install Dependencies') {
-                    steps {
-                        bat 'if exist "node_modules" (rmdir /s /q "node_modules")'
-                        bat 'npm install'
-                    }
-                }
         stage('Check Node.js Version') {
             steps {
                 bat 'node -v'
