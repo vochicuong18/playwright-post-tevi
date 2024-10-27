@@ -6,9 +6,9 @@ pipeline {
     stages {
         stage('Check Files') {
             steps {
-                sh 'node -v'
-                sh 'npm install'
-                sh 'ls -la'
+                bat 'node -v'
+                bat 'npm install'
+                bat 'ls -la'
             }
         }
         stage('Run Tests') {
@@ -25,7 +25,7 @@ pipeline {
                         def folderName = entry.folder
                         withEnv(["FOLDER_NAME=${folderName}", "LOCAL_DATA_PATH=${env.LOCAL_DATA_PATH}"]) {
                             // Chạy Playwright test
-                            sh 'npx playwright test'
+                            bat 'npx playwright test'
                         }
                     }
                 }
