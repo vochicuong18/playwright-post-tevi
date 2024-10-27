@@ -1,6 +1,5 @@
 pipeline {
     agent any
-    cron 'H/5 * * * *'
     environment {
         LOCAL_DATA_PATH = 'D:/tevi'
         CURRENT_DATE = new Date().format('ddMMyyyy')
