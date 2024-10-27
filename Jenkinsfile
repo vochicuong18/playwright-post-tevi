@@ -29,17 +29,18 @@ pipeline {
             }
         }
         stage('Run Tests') {
-            steps {
-                script {
-                    def cronConfig = new groovy.json.JsonSlurper().parse(new File("${env.CRON_FILE_PATH}"))
-                    cronConfig.each { entry ->
-                        def folderName = entry.folder
-                        withEnv(["FOLDER_NAME=${folderName}", "LOCAL_DATA_PATH=${env.LOCAL_DATA_PATH}"]) {
-                            bat 'npx playwright test'
+                    steps {
+                        script {
+                            def cronConfig = readJSON file: "${env.CRON_FILE_PATH}"
+
+                            cronConfig.each { entry ->
+                                def folderName = entry.folder
+                                withEnv(["FOLDER_NAME=${folderName}", "LOCAL_DATA_PATH=${env.LOCAL_DATA_PATH}"]) {
+                                    bat 'npx playwright test'  // Chạy Playwright test
+                                }
+                            }
                         }
                     }
                 }
-            }
-        }
     }
 }
