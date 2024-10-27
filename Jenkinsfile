@@ -38,7 +38,7 @@ pipeline {
                                 echo "LOCAL_DATA_PATH=${env.LOCAL_DATA_PATH}/${env.CURRENT_DATE}"
 
                                 withEnv(["FOLDER_NAME=${folderName}", "LOCAL_DATA_PATH=${env.LOCAL_DATA_PATH}/${env.CURRENT_DATE}"]) {
-                                    bat 'npx playwright test'
+                                    bat 'npx playwright test --headed'
                                 }
                             }
                         }
