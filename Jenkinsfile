@@ -31,22 +31,19 @@ pipeline {
         stage('Run Tests') {
                     steps {
                         script {
-                            // Đọc nội dung của cron.json
+
                             def cronConfig = readJSON file: "${env.CRON_FILE_PATH}"
                             echo "Loaded cron configuration: ${cronConfig}"
-
-                            // Lặp qua các entry trong cronConfig để chạy các bài kiểm tra
                             cronConfig.each { entry ->
                                 def folderName = entry.folder
-                                echo "Running tests for folder: ${folderName}"  // Log folder name
+                                echo "Running tests for folder: ${folderName}"
 
-                                // In các biến môi trường trước khi chạy bài kiểm tra
                                 echo "Setting environment variables:"
                                 echo "FOLDER_NAME=${folderName}"
-                                echo "LOCAL_DATA_PATH=${env.LOCAL_DATA_PATH}"
+                                echo "LOCAL_DATA_PATH=${env.LOCAL_DATA_PATH}/${env.CURRENT_DATE}"
 
-                                withEnv(["FOLDER_NAME=${folderName}", "LOCAL_DATA_PATH=${env.LOCAL_DATA_PATH}"]) {
-                                    bat 'npx playwright test'  // Chạy Playwright test
+                                withEnv(["FOLDER_NAME=${folderName}", "LOCAL_DATA_PATH=${env.LOCAL_DATA_PATH}/${env.CURRENT_DATE}"]) {
+                                    bat 'npx playwright test'
                                 }
                             }
                         }
