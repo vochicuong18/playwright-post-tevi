@@ -2,7 +2,8 @@ pipeline {
     agent any
     environment {
         LOCAL_DATA_PATH = 'D:/tevi'
-        CRON_FILE_PATH = "${env.LOCAL_DATA_PATH}/cron.json"
+        CURRENT_DATE = new Date().format('ddMMyyyy')
+        CRON_FILE_PATH = "${env.LOCAL_DATA_PATH}/${env.CURRENT_DATE}/cron.json"
     }
     stages {
 
@@ -19,36 +20,33 @@ pipeline {
         stage('Print Local Data Path') {
             steps {
                 bat "echo LOCAL_DATA_PATH is: ${env.LOCAL_DATA_PATH}"
+                bat "echo CURRENT_DATE is: ${env.CURRENT_DATE}"
+                bat "echo CRON_FILE_PATH is: ${env.CRON_FILE_PATH}"
             }
         }
         stage('Check Files') {
             steps {
-                bat "if exist \"${env.LOCAL_DATA_PATH}\\cron.json\" (echo File exists) else (echo File does not exist)"
+                bat "if exist \"${env.CRON_FILE_PATH}\" (echo File exists) else (echo File does not exist)"
             }
         }
         stage('Run Tests') {
-            steps {
-                script {
+                    steps {
+                        script {
+                            def jsonData = bat(
+                                script: "node -e \"console.log(JSON.stringify(require('${env.CRON_FILE_PATH}')));\"",
+                                returnStdout: true
+                            ).trim()
 
-                    def jsonData = bat(
-                        script: "node -e \"console.log(JSON.stringify(require('${env.CRON_FILE_PATH}')));\"",
-                        returnStdout: true
-                    ).trim()
+                            def cronConfig = new groovy.json.JsonSlurper().parseText(jsonData)
 
-
-                    def cronConfig = new groovy.json.JsonSlurper().parseText(jsonData)
-
-
-                    cronConfig.each { entry ->
-                        def folderName = entry.folder
-                        withEnv(["FOLDER_NAME=${folderName}", "LOCAL_DATA_PATH=${env.LOCAL_DATA_PATH}"]) {
-
-                            bat 'npx playwright test'
+                            cronConfig.each { entry ->
+                                def folderName = entry.folder
+                                withEnv(["FOLDER_NAME=${folderName}", "LOCAL_DATA_PATH=${env.LOCAL_DATA_PATH}"]) {
+                                    bat 'npx playwright test'  // Chạy Playwright test
+                                }
+                            }
                         }
                     }
                 }
             }
         }
-    }
-
-}
