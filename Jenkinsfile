@@ -8,7 +8,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'npm install'  // Cài đặt tất cả các phụ thuộc trong package.json
+                bat 'npm install'
             }
         }
         stage('Check Node.js Version') {
@@ -16,20 +16,28 @@ pipeline {
                 bat 'node -v'
             }
         }
+        stage('Print Local Data Path') {
+            steps {
+                bat "echo LOCAL_DATA_PATH is: ${env.LOCAL_DATA_PATH}"
+            }
+        }
         stage('Check Files') {
             steps {
-                bat "dir ${env.LOCAL_DATA_PATH}"
+                bat "if exist \"${env.LOCAL_DATA_PATH}\\cron.json\" (echo File exists) else (echo File does not exist)"
             }
         }
         stage('Run Tests') {
             steps {
                 script {
+
                     def jsonData = bat(
                         script: "node -e \"console.log(JSON.stringify(require('${env.CRON_FILE_PATH}')));\"",
                         returnStdout: true
                     ).trim()
 
+
                     def cronConfig = new groovy.json.JsonSlurper().parseText(jsonData)
+
 
                     cronConfig.each { entry ->
                         def folderName = entry.folder
@@ -42,4 +50,5 @@ pipeline {
             }
         }
     }
+
 }
