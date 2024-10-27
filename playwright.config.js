@@ -1,61 +1,53 @@
 // @ts-check
-import {defineConfig, devices} from '@playwright/test';
-import os from "node:os";
+import { defineConfig, devices } from '@playwright/test';
+import fs from 'fs';
+import os from 'node:os';
 import dotenv from 'dotenv';
 import path from 'path';
+import { parse } from 'csv-parse/sync';
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+
 /**
- * @see https://playwright.dev/docs/test-configuration
+ * data test example path : D:\tevi\27102024\data-test.json
  */
 
-// Read from ".env" file.
-dotenv.config({path: path.resolve(__dirname, '.env')});
-/**
- * @see https://playwright.dev/docs/test-configuration
- */
+const date = new Date();
+const formattedDate = date.toLocaleDateString('vi-VN').replace(/\//g, '').substring(0, 8);
+const localDataPath = process.env.LOCAL_DATA_PATH;
+const folder = process.env.FOLDER_NAME || 'defaultFolder';
+const filePath = path.join(localDataPath, formattedDate, folder, 'data.json');
+
+const records = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+
+const projects = records.map(record => ({
+  name: record.profileName,
+  use: {
+    profilePath: record.profilePath,
+    profileName: record.profileName,
+    audience: record.audience,
+    star: record.star,
+    allowReplying: record.allowReplying,
+    canComment: record.canComment,
+    allowRepWithLink: record.allowRepWithLink,
+    pinPost: record.pinPost,
+    collection: record.collection,
+    filePath: record.filePath,
+    statusPost: record.statusPost,
+  },
+}));
 
 module.exports = defineConfig({
   fullyParallel: false,
   timeout: 0,
-  testDir: './ricoh/sanity',
-  workers: 2,
-  reporter: [
-    [
-      "allure-playwright",
-      {
-        detail: false,
-        history: true,
-        environmentInfo: {
-          OS: os.platform(),
-          OSVersion: os.version(),
-          Architecture: os.arch(),
-          NodeVersion: process.version,
-        },
-      },
-    ],
-  ],
+  testDir: './tevi/sanity',
+  workers: 1,
+  reporter: 'html',
   use: {
     actionTimeout: 30000,
     baseURL: process.env.URL,
     headless: false,
     video: 'retain-on-failure',
-    screenshot: {mode: 'only-on-failure', fullPage: true},
-    launchOptions: {slowMo: 100, args: ['--start-maximized']},
+    screenshot: { mode: 'only-on-failure', fullPage: true },
   },
-  projects: [
-    {
-      name: 'English',
-      use: {
-        language: process.env.ENGLISH,
-        ...devices[process.env.DEVICE], deviceScaleFactor: undefined, channel: process.env.BROWSER, viewport: null
-      }
-    },
-    {
-      name: 'Chinese',
-      use: {
-        language: process.env.CHINESE,
-        ...devices[process.env.DEVICE], deviceScaleFactor: undefined, channel: process.env.BROWSER, viewport: null
-      },
-    }
-  ],
+  projects,
 });
-

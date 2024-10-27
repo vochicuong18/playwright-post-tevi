@@ -10,6 +10,7 @@ export default class NavigateUtility {
             await page.goto(data[data.env]['fo'])
             await page.waitForLoadState('domcontentloaded')
             await page.waitForLoadState('networkidle')
+            await page.waitForURL('**/home');
         })
     }
 }

@@ -1,67 +1,33 @@
-import {test as baseTest} from "@playwright/test";
-import NavigateUtility from "./NavigateUtility";
-import HeaderPage from "../pages/general/HeaderPage";
-import LoginPage from "../pages/general/LoginPage";
-import MyAccount from "../pages/customer/MyAccount";
-import ProductListPage from "../pages/product/ProductListPage";
-import ProductDetailsPage from "../pages/product/ProductDetailsPage";
-import ShoppingCartPage from "../pages/general/ShoppingCartPage";
-import ShippingPage from "../pages/general/ShippingPage";
-import CheckoutPage from "../pages/general/CheckoutPage";
-import SuccessPage from "../pages/general/SuccessPage";
-import OrderDetailsPage from "../pages/general/OrderDetailsPage";
+import {test as baseTest} from '@playwright/test';
+import HomePage from '../pages/general/HomePage';
+import MyAccount from '../pages/general/MyAccount';
+import NavigateUtility from './NavigateUtility';
+import {chromium} from 'playwright';
 
-const allure = require("allure-js-commons");
-
+let page
 export const test = baseTest.extend({
-    //Fixtures marked as "option: true" will get a value specified in the config, or fallback to the default value.
-    language: ['English', {option: true}],
-    page: async ({page, browser, language}, use) => {
-        let headerPage = new HeaderPage(page)
-        await allure.tag(`${browser.browserType().name()} ${browser.version()}`)
-        await NavigateUtility.navigateToHomePage(page)
-        await headerPage.acceptCookie()
-        await headerPage.switchLanguage(language);
+    profilePath: ['path/to/profile', {option: true}],
+    profileName: ['Default Profile', {option: true}],
+    browserContext: async ({profilePath, profileName}, use) => {
+        const context = await chromium.launchPersistentContext(profilePath, {
+            headless: false,
+            channel: 'chrome',
+            deviceScaleFactor: undefined,
+            viewport: null,
+            args: [`--start-maximized`, `--profile-directory=${profileName}`],
+            slowMo: 1000,
+        });
+        page = context.pages()[0] || await context.newPage();
         await use(page);
     },
 
-    headerPage: async ({page}, use) => {
-        await use(new HeaderPage(page));
+    homePage: async ({}, use) => {
+        await NavigateUtility.navigateToHomePage(page);
+        await use(new HomePage(page));
     },
 
-    loginPage: async ({page}, use) => {
-        await use(new LoginPage(page))
+    myAccount: async ({}, use) => {
+        await use(new MyAccount(page));
     },
+});
 
-    myAccountPage: async ({page}, use) => {
-        await use(new MyAccount(page))
-    },
-
-    productListPage: async ({page}, use) => {
-        await use(new ProductListPage(page))
-    },
-
-    productDetailsPage: async ({page}, use) => {
-        await use(new ProductDetailsPage(page))
-    },
-
-    shoppingCartPage: async ({page}, use) => {
-        await use(new ShoppingCartPage(page))
-    },
-
-    shippingPage: async ({page}, use) => {
-        await use(new ShippingPage(page))
-    },
-
-    checkoutPage: async ({page}, use) => {
-        await use(new CheckoutPage(page))
-    },
-
-    successPage: async ({page}, use) => {
-        await use(new SuccessPage(page))
-    },
-
-    orderDetailsPage: async ({page}, use) => {
-        await use(new OrderDetailsPage(page))
-    }
-})
