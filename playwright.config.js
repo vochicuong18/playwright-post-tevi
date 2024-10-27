@@ -12,10 +12,9 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
  */
 
 const date = new Date();
-const formattedDate = date.toLocaleDateString('vi-VN').replace(/\//g, '').substring(0, 8);
 const localDataPath = process.env.LOCAL_DATA_PATH;
 const folder = process.env.FOLDER_NAME || 'defaultFolder';
-const filePath = path.join(localDataPath, formattedDate, folder, 'data.json');
+const filePath = path.join(localDataPath, folder, 'data.json');
 
 const records = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 
