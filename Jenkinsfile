@@ -23,11 +23,6 @@ pipeline {
                 bat "echo CRON_FILE_PATH is: ${env.CRON_FILE_PATH}"
             }
         }
-        stage('Print Cron File Content') {
-            steps {
-                bat "type \"${env.CRON_FILE_PATH}\""
-            }
-        }
         stage('Check Files') {
             steps {
                 bat "if exist \"${env.CRON_FILE_PATH}\" (echo File exists) else (echo File does not exist)"
