@@ -36,13 +36,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    def jsonData = bat(
-                        script: "node -e \"console.log(JSON.stringify(require('${env.CRON_FILE_PATH}')));\"",
-                        returnStdout: true
-                    ).trim()
-
-                    def cronConfig = new groovy.json.JsonSlurper().parseText(jsonData)
-
+                    def cronConfig = new groovy.json.JsonSlurper().parse(new File("${env.CRON_FILE_PATH}"))
                     cronConfig.each { entry ->
                         def folderName = entry.folder
                         withEnv(["FOLDER_NAME=${folderName}", "LOCAL_DATA_PATH=${env.LOCAL_DATA_PATH}"]) {
