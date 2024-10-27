@@ -4,14 +4,19 @@ pipeline {
         LOCAL_DATA_PATH = 'D:/tevi'
     }
     stages {
+        stage('Check Files') {
+            steps {
+                sh 'ls -la'
+            }
+        }
         stage('Run Tests') {
             steps {
                 script {
+
                     def jsonData = sh(
                         script: 'node -e "console.log(JSON.stringify(require(\'./cron.json\')))"',
                         returnStdout: true
                     ).trim()
-
                     def cronConfig = new groovy.json.JsonSlurper().parseText(jsonData)
 
                     cronConfig.each { entry ->
@@ -24,5 +29,4 @@ pipeline {
             }
         }
     }
-
 }
