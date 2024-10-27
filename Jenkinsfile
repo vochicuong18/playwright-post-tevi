@@ -6,11 +6,12 @@ pipeline {
         CRON_FILE_PATH = "${env.LOCAL_DATA_PATH}/${env.CURRENT_DATE}/cron.json"
     }
     stages {
-        stage('Install Dependencies') {
-            steps {
-                bat 'npm install'
-            }
-        }
+         stage('Clean and Install Dependencies') {
+                    steps {
+                        bat 'if exist "node_modules" (rmdir /s /q "node_modules")'
+                        bat 'npm install'
+                    }
+                }
         stage('Check Node.js Version') {
             steps {
                 bat 'node -v'

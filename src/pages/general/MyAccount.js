@@ -1,8 +1,6 @@
-import {expect, test} from "@playwright/test";
 import WaitUtility from "../../utilities/WaitUtility";
-import StringUtility from "../../utilities/StringUtility";
-import AssertUtility from "../../utilities/AssertUtility";
 import path from "path";
+import fs from 'fs';
 
 let waitUtility
 
@@ -48,7 +46,7 @@ export default class MyAccount {
         await this.attachFile(filePath)
     }
 
-    async fillStatus(status){
+    async fillStatus(status) {
         await this.txtStatus.fill(status)
     }
 

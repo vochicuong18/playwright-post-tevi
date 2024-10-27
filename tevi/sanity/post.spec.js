@@ -1,6 +1,6 @@
 import {test} from "../../src/utilities/Fixtures";
 
-test('check', async ({
+test('post tevi', async ({
                          browserContext,
                          homePage,
                          myAccount,
