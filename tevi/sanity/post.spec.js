@@ -14,6 +14,7 @@ test('post tevi', async ({
                          statusPost,
                          filePath,
                      }) => {
+    console.log("-------audience: ", audience)
     await homePage.goToMyAccountPage()
     await myAccount.createNewPost()
     await myAccount.selectAudience(audience, star)
