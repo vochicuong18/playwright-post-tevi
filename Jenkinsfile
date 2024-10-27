@@ -8,7 +8,7 @@ pipeline {
             steps {
                 bat 'node -v'
                 bat 'npm install'
-                bat 'ls -la'
+               bat 'dir'
             }
         }
         stage('Run Tests') {
