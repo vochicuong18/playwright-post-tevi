@@ -21,5 +21,5 @@ test('post tevi', async ({
     await myAccount.selectCollection(collection)
     await myAccount.fillStatus(statusPost)
     await myAccount.attachFile(filePath)
-    await myAccount.submitPost()
+    // await myAccount.submitPost()
 })

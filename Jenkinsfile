@@ -1,48 +1,70 @@
+import groovy.json.JsonSlurper
+
 pipeline {
     agent any
     environment {
-        LOCAL_DATA_PATH = 'D:/tevi'
-        CURRENT_DATE = new Date().format('ddMMyyyy')
-        CRON_FILE_PATH = "${env.LOCAL_DATA_PATH}/${env.CURRENT_DATE}/cron.json"
+        BASE_PATH = "D:\\tevi\\${new Date().format('ddMMyyyy')}"
+        JSON_PATH = "${BASE_PATH}\\cron.json"
+    }
+    parameters {
+        string(name: 'FOLDER_PATH', defaultValue: 'default', description: 'Folder path to use for test data')
     }
     stages {
-        stage('Check Node.js Version') {
+        stage('Configure Cron Jobs') {
             steps {
-                bat 'node -v'
+                script {
+                    println("Reading cron configuration from: ${env.JSON_PATH}")
+
+                    def cronFile = readFile(env.JSON_PATH)
+                    def cronConfig = new JsonSlurper().parseText(cronFile)
+                    
+                    println("Cron configuration data: ${cronConfig}")
+
+                    def cronEntries = cronConfig.collect { config ->
+                        "${config.time} %FOLDER_PATH=${env.BASE_PATH}\\${config.folder}"
+                    }.join('\n')
+                    
+                    println("Generated cron entries:\n${cronEntries}")
+
+                    properties([
+                        pipelineTriggers([parameterizedCron(cronEntries)])
+                    ])
+                    
+                    println("Scheduled jobs with the following cron entries:\n${cronEntries}")
+                }
             }
         }
-        stage('Print Local Data Path') {
-            steps {
-                bat "echo LOCAL_DATA_PATH is: ${env.LOCAL_DATA_PATH}"
-                bat "echo CURRENT_DATE is: ${env.CURRENT_DATE}"
-                bat "echo CRON_FILE_PATH is: ${env.CRON_FILE_PATH}"
+
+        stage('Run Playwright Tests') {
+            when {
+                expression { return params.FOLDER_PATH != 'default' }
             }
-        }
-        stage('Check Files') {
             steps {
-                bat "if exist \"${env.CRON_FILE_PATH}\" (echo File exists) else (echo File does not exist)"
-            }
-        }
-        stage('Run Tests') {
-                    steps {
-                        script {
+                script {
+                    def currentFolder = params.FOLDER_PATH
+                    def dataFilePath = "${currentFolder}\\data.json"
+                    def imgFolderPath = "${currentFolder}\\img"
 
-                            def cronConfig = readJSON file: "${env.CRON_FILE_PATH}"
-                            echo "Loaded cron configuration: ${cronConfig}"
-                            cronConfig.each { entry ->
-                                def folderName = entry.folder
-                                echo "Running tests for folder: ${folderName}"
+                    println("Current test folder: ${currentFolder}")
+                    println("Data file path: ${dataFilePath}")
+                    println("Image folder path: ${imgFolderPath}")
 
-                                echo "Setting environment variables:"
-                                echo "FOLDER_NAME=${folderName}"
-                                echo "LOCAL_DATA_PATH=${env.LOCAL_DATA_PATH}/${env.CURRENT_DATE}"
+                    if (fileExists(dataFilePath) && fileExists(imgFolderPath)) {
+                        def dataFileContent = readFile(dataFilePath)
+                        println("Data from ${dataFilePath}: ${dataFileContent}")
+                        println("Images folder: ${imgFolderPath}")
 
-                                withEnv(["FOLDER_NAME=${folderName}", "LOCAL_DATA_PATH=${env.LOCAL_DATA_PATH}/${env.CURRENT_DATE}"]) {
-                                    bat 'npx playwright test --headed'
-                                }
-                            }
-                        }
+                        println("Running Playwright tests with data from folder: ${currentFolder}")
+                        bat """
+                            set DATA_FOLDER=${currentFolder}
+                            npm install
+                            npx playwright test --config=${currentFolder}\\playwright.config.js
+                        """
+                    } else {
+                        error("Data file or image folder not found in ${currentFolder}")
                     }
                 }
+            }
+        }
     }
 }
