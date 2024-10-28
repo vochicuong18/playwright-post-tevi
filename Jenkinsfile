@@ -13,23 +13,18 @@ pipeline {
         stage('Configure Cron Jobs') {
             steps {
                 script {
-                    println("Reading cron configuration from: ${env.JSON_PATH}")
-
+                    // Đọc file cron.json
                     def cronFile = readFile(env.JSON_PATH)
                     def cronConfig = new JsonSlurper().parseText(cronFile)
-                    
-                    println("Cron configuration data: ${cronConfig}")
 
+                    // Tạo chuỗi cron từ cấu hình JSON
                     def cronEntries = cronConfig.collect { config ->
-                        "${config.time} %FOLDER_PATH=${env.BASE_PATH}\\${config.folder}"
+                        "${config.time} %FOLDER_PATH=${config.folder}"
                     }.join('\n')
-                    
-                    println("Generated cron entries:\n${cronEntries}")
 
-                    properties([
-                        pipelineTriggers([parameterizedCron(cronEntries)])
-                    ])
-                    
+                    // Thiết lập các cron jobs
+                    properties([pipelineTriggers([parameterizedCron(cronEntries)])])
+
                     println("Scheduled jobs with the following cron entries:\n${cronEntries}")
                 }
             }
@@ -37,28 +32,27 @@ pipeline {
 
         stage('Run Playwright Tests') {
             when {
-                expression { return params.FOLDER_PATH != 'default' }
+                expression { return params.FOLDER_PATH != 'default' } // Chỉ chạy nếu FOLDER_PATH khác 'default'
             }
             steps {
                 script {
                     def currentFolder = params.FOLDER_PATH
-                    def dataFilePath = "${currentFolder}\\data.json"
-                    def imgFolderPath = "${currentFolder}\\img"
+                    def dataFilePath = "${BASE_PATH}\\${currentFolder}\\data.json"
+                    def imgFolderPath = "${BASE_PATH}\\${currentFolder}\\img"
 
-                    println("Current test folder: ${currentFolder}")
-                    println("Data file path: ${dataFilePath}")
-                    println("Image folder path: ${imgFolderPath}")
-
+                    // Kiểm tra xem file data.json và thư mục img có tồn tại không
                     if (fileExists(dataFilePath) && fileExists(imgFolderPath)) {
                         def dataFileContent = readFile(dataFilePath)
                         println("Data from ${dataFilePath}: ${dataFileContent}")
                         println("Images folder: ${imgFolderPath}")
 
-                        println("Running Playwright tests with data from folder: ${currentFolder}")
-                        bat """
-                            set DATA_FOLDER=${currentFolder}
-                            npx playwright test
-                        """
+                        // Thiết lập biến môi trường và chạy Playwright tests
+                        withEnv(["LOCAL_DATA_PATH=${env.BASE_PATH}", "FOLDER_NAME=${currentFolder}"]) {
+                            bat """
+                                npm install
+                                npx playwright test
+                            """
+                        }
                     } else {
                         error("Data file or image folder not found in ${currentFolder}")
                     }
