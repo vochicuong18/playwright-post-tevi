@@ -48,10 +48,7 @@ pipeline {
 
                         // Thiết lập biến môi trường và chạy Playwright tests
                         withEnv(["LOCAL_DATA_PATH=${env.BASE_PATH}", "FOLDER_NAME=${currentFolder}"]) {
-                            bat """
-                                npm install
-                                npx playwright test
-                            """
+                            bat 'npx playwright test'
                         }
                     } else {
                         error("Data file or image folder not found in ${currentFolder}")
