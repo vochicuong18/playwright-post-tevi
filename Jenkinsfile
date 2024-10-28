@@ -57,7 +57,7 @@ pipeline {
                         println("Running Playwright tests with data from folder: ${currentFolder}")
                         bat """
                             set DATA_FOLDER=${currentFolder}
-                            npx playwright test --config=${currentFolder}\\playwright.config.js
+                            npx playwright test
                         """
                     } else {
                         error("Data file or image folder not found in ${currentFolder}")
