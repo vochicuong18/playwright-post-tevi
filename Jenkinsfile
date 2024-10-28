@@ -57,7 +57,6 @@ pipeline {
                         println("Running Playwright tests with data from folder: ${currentFolder}")
                         bat """
                             set DATA_FOLDER=${currentFolder}
-                            npm install
                             npx playwright test --config=${currentFolder}\\playwright.config.js
                         """
                     } else {
