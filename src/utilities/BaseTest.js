@@ -3,6 +3,7 @@ import HomePage from '../pages/general/HomePage';
 import MyAccount from '../pages/general/MyAccount';
 import NavigateUtility from './NavigateUtility';
 import {chromium} from 'playwright';
+import PostPage from "../pages/general/PostPage";
 
 let page
 export const test = baseTest.extend({
@@ -11,7 +12,7 @@ export const test = baseTest.extend({
     browserContext: async ({profilePath, profileName}, use) => {
         const context = await chromium.launchPersistentContext(profilePath, {
             headless: false,
-            channel: 'chrome',
+            channel: 'msedge',
             deviceScaleFactor: undefined,
             viewport: null,
             args: [`--start-maximized`, `--profile-directory=${profileName}`],
@@ -28,6 +29,10 @@ export const test = baseTest.extend({
 
     myAccount: async ({}, use) => {
         await use(new MyAccount(page));
+    },
+
+    postPage: async ({}, use) => {
+        await use(new PostPage(page));
     },
 });
 
