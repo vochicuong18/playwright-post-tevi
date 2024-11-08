@@ -11,6 +11,8 @@ dotenv.config({path: path.resolve(__dirname, '.env')});
 /**
  * data test example path : D:\tevi\27102024\data-test.json
  */
+// const localDataPath = "D:/tevi/08112024/"
+// const folder = "data1"
 
 const localDataPath = process.env.LOCAL_DATA_PATH;
 const folder = process.env.FOLDER_NAME || 'defaultFolder';
@@ -41,7 +43,7 @@ const projects = records.map(record => ({
 module.exports = defineConfig({
     fullyParallel: false,
     timeout: 0,
-    testDir: './tevi/sanity',
+    testDir: './tevi/auto',
     workers: 1,
     reporter: 'html',
     use: {

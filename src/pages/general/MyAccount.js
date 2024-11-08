@@ -16,7 +16,7 @@ export default class MyAccount {
         this.everyone = page.locator("//div[text()='Free for everyone']//parent::div//parent::div//input")
         this.member = page.locator("//div[text()='Exclusive content']//parent::div//parent::div//input")
         this.starNumber = page.locator("input[role='spinbutton']")
-        this.audience = page.locator("//span[@aria-label='down']")
+        this.audience = page.locator("//div[text()='Exclusive content' or text()='Everyone']")
         this.setting = page.locator("//span[text()='Settings']")
         this.collections = page.locator("//span[text()='Collections']")
         this.allowReplyingToggle = page.locator("//div[text()='Allow replying']//parent::div//button[@role='switch']")

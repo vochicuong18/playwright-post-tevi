@@ -9,7 +9,7 @@ export default class NavigateUtility {
         await test.step(`Navigate home page`, async () => {
             await page.goto(data[data.env]['fo'])
             await page.waitForLoadState('domcontentloaded')
-            await page.waitForLoadState('networkidle')
+            // await page.waitForLoadState('networkidle')
             await page.waitForURL('**/home');
         })
     }

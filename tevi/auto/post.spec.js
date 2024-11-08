@@ -1,21 +1,23 @@
 import {test} from "../../src/utilities/Fixtures";
 
 test('post tevi', async ({
-                         browserContext,
-                         homePage,
-                         myAccount,
-                         audience,
-                         star,
-                         allowReplying,
-                         canComment,
-                         allowRepWithLink,
-                         pinPost,
-                         collection,
-                         statusPost,
-                         filePath,
-                     }) => {
+                             browserContext,
+                             homePage,
+                             myAccount,
+                             audience,
+                             star,
+                             allowReplying,
+                             canComment,
+                             allowRepWithLink,
+                             pinPost,
+                             collection,
+                             statusPost,
+                             filePath,
+                             postPage
+                         }) => {
 
     console.log("-------audience: ", audience)
+    console.log()
     console.log("-------star: ", star)
     console.log("-------allowReplying: ", allowReplying)
     console.log("-------canComment: ", canComment)
@@ -26,7 +28,6 @@ test('post tevi', async ({
     console.log("-------filePath: ", filePath)
 
 
-
     await homePage.goToMyAccountPage()
     await myAccount.createNewPost()
     await myAccount.selectAudience(audience, star)
@@ -34,5 +35,6 @@ test('post tevi', async ({
     await myAccount.selectCollection(collection)
     await myAccount.fillStatus(statusPost)
     await myAccount.attachFile(filePath)
-    // await myAccount.submitPost()
+    await myAccount.submitPost()
+    await postPage.copyLink()
 })

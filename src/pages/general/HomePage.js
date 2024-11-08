@@ -25,6 +25,5 @@ export default class HomePage {
     async goToMyAccountPage(){
         await this.avatar.click()
         await this.page.waitForLoadState('domcontentloaded')
-        await this.page.waitForLoadState('networkidle')
     }
 }
