@@ -1,0 +1,14 @@
+[
+  {
+    "time": "03 11 * * *",
+    "folder": "data1"
+  },
+  {
+    "time": "04 11 * * *",
+    "folder": "data2"
+  },
+  {
+    "time": "05 11 * * *",
+    "folder": "data3"
+  }
+]
